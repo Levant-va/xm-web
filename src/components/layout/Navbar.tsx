@@ -3,65 +3,68 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/auth';
+import { useTranslations } from 'next-intl';
+import { LanguageSwitcher } from '@/components/ui';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const { isAuthenticated } = useAuth();
+  const t = useTranslations();
 
   const navigationItems = [
     {
-      name: 'Division',
+      name: t('navigation.division'),
       href: '/division',
       submenu: [
-        { name: 'About us', href: '/division/about' },
-        { name: 'Staff Team', href: '/division/staff' },
-        { name: 'Upcoming Events', href: '/division/events' },
-        { name: 'Virtual Airlines', href: '/division/virtual-airlines' },
-        { name: 'Tours', href: '/division/tours' },
+        { name: t('division.aboutUs'), href: '/division/about' },
+        { name: t('division.staffTeam'), href: '/division/staff' },
+        { name: t('division.upcomingEvents'), href: '/division/events' },
+        { name: t('division.virtualAirlines'), href: '/division/virtual-airlines' },
+        { name: t('division.tours'), href: '/division/tours' },
       ]
     },
     {
-      name: 'Pilots',
+      name: t('navigation.pilots'),
       href: '/pilots',
       submenu: [
-        { name: 'Webeye', href: '/pilots/webeye' },
-        { name: 'Pilot Exam/Training Guidelines', href: '/pilots/exam-guidelines' },
-        { name: 'Communication Manual', href: '/pilots/communication-manual' },
+        { name: t('pilots.webeye'), href: '/pilots/webeye' },
+        { name: t('pilots.examGuidelines'), href: '/pilots/exam-guidelines' },
+        { name: t('pilots.communicationManual'), href: '/pilots/communication-manual' },
       ]
     },
     {
-      name: 'Controllers',
+      name: t('navigation.controllers'),
       href: '/controllers',
       submenu: [
-        { name: 'ATC Operation', href: '/controllers/atc-operation' },
-        { name: 'ATC Exam/Training Guidelines', href: '/controllers/exam-guidelines' },
-        { name: 'OJAI Procedures', href: '/controllers/ojai-procedures' },
-        { name: 'ORBI Procedures', href: '/controllers/orbi-procedures' },
-        { name: 'OSDI Procedures', href: '/controllers/osdi-procedures' },
+        { name: t('controllers.atcOperation'), href: '/controllers/atc-operation' },
+        { name: t('controllers.examGuidelines'), href: '/controllers/exam-guidelines' },
+        { name: t('controllers.ojaiProcedures'), href: '/controllers/ojai-procedures' },
+        { name: t('controllers.orbiProcedures'), href: '/controllers/orbi-procedures' },
+        { name: t('controllers.osdiProcedures'), href: '/controllers/osdi-procedures' },
       ]
     },
     {
-      name: 'Training',
+      name: t('navigation.training'),
       href: '/training',
       submenu: [
-        { name: 'Request Training', href: '/training/request-training' },
-        { name: 'Request Exam', href: '/training/request-exam' },
-        { name: 'VFR Communication', href: '/training/vfr-communication' },
-        { name: 'IFR Communication', href: '/training/ifr-communication' },
+        { name: t('training.requestTraining'), href: '/training/request-training' },
+        { name: t('training.requestExam'), href: '/training/request-exam' },
+        { name: t('training.vfrCommunication'), href: '/training/vfr-communication' },
+        { name: t('training.ifrCommunication'), href: '/training/ifr-communication' },
       ]
     },
     {
-      name: 'Resources',
+      name: t('navigation.resources'),
       href: '/resources',
       submenu: [
-        { name: 'Aeronautical Charts', href: '/resources/charts' },
-        { name: 'Scenery', href: '/resources/scenery' },
-        { name: 'Join IVAO', href: '/resources/join-ivao' },
-        { name: 'Forum', href: '/resources/forum' },
-        { name: 'Division Transfers', href: '/resources/transfers' },
-        { name: 'XM Wiki', href: '/resources/wiki' },
-        { name: 'Rules & Regulations', href: '/resources/rules' },
+        { name: t('resources.charts'), href: '/resources/charts' },
+        { name: t('resources.scenery'), href: '/resources/scenery' },
+        { name: t('resources.joinIvao'), href: '/resources/join-ivao' },
+        { name: t('resources.forum'), href: '/resources/forum' },
+        { name: t('resources.transfers'), href: '/resources/transfers' },
+        { name: t('resources.wiki'), href: '/resources/wiki' },
+        { name: t('resources.rules'), href: '/resources/rules' },
       ]
     },
   ];
@@ -118,9 +121,12 @@ const Navbar = () => {
                 href="/admin"
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               >
-                Admin
+                {t('navigation.admin')}
               </Link>
             )}
+
+            {/* Language Switcher */}
+            <LanguageSwitcher />
           </div>
 
           {/* Mobile menu button */}
@@ -175,9 +181,14 @@ const Navbar = () => {
                   className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
                   onClick={() => setIsOpen(false)}
                 >
-                  Admin
+                  {t('navigation.admin')}
                 </Link>
               )}
+
+              {/* Language Switcher for Mobile */}
+              <div className="px-3 py-2">
+                <LanguageSwitcher />
+              </div>
             </div>
           </div>
         )}

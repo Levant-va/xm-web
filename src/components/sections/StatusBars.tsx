@@ -1,20 +1,24 @@
+import { useTranslations } from 'next-intl';
+
 const StatusBars = () => {
+  const t = useTranslations();
+  
   const statusItems = [
     {
-      title: "IVAO Network",
-      description: "Global Network for virtual Pilots and ATCs",
+      title: t('statusBars.ivaoNetwork.title'),
+      description: t('statusBars.ivaoNetwork.description'),
       icon: "🌐",
       color: "bg-blue-500"
     },
     {
-      title: "Seamless Growth",
-      description: "Seamless Progression from Basic to Advanced",
+      title: t('statusBars.seamlessGrowth.title'),
+      description: t('statusBars.seamlessGrowth.description'),
       icon: "📈",
       color: "bg-green-500"
     },
     {
-      title: "Dedicated Support",
-      description: "Simultaneous Training Across Multiple Ratings",
+      title: t('statusBars.dedicatedSupport.title'),
+      description: t('statusBars.dedicatedSupport.description'),
       icon: "🎯",
       color: "bg-purple-500"
     }

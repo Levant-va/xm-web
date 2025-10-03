@@ -1,28 +1,31 @@
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 const Footer = () => {
+  const t = useTranslations();
+  
   const footerSections = [
     {
-      title: "Pilots",
+      title: t('footer.pilots'),
       links: [
-        { name: "Charts", href: "/resources/charts" },
-        { name: "Pilot Exam/Training Guidelines", href: "/pilots/exam-guidelines" }
+        { name: t('resources.charts'), href: '/resources/charts' },
+        { name: t('pilots.examGuidelines'), href: '/pilots/exam-guidelines' }
       ]
     },
     {
-      title: "Controllers",
+      title: t('footer.controllers'),
       links: [
-        { name: "ATC Training", href: "/training/request-training" },
-        { name: "ATC Exam/Training Guidelines", href: "/controllers/exam-guidelines" }
+        { name: t('training.requestTraining'), href: '/training/request-training' },
+        { name: t('controllers.examGuidelines'), href: '/controllers/exam-guidelines' }
       ]
     },
     {
-      title: "Headquarters (HQ)",
+      title: t('footer.headquarters'),
       links: [
-        { name: "HQ", href: "/division" },
-        { name: "Staff Teams", href: "/division/staff" },
-        { name: "Policies", href: "/resources/rules" },
-        { name: "Contacts", href: "/division/about" }
+        { name: t('footer.hq'), href: '/division' },
+        { name: t('footer.staffTeams'), href: '/division/staff' },
+        { name: t('footer.policies'), href: '/resources/rules' },
+        { name: t('footer.contacts'), href: '/division/about' }
       ]
     }
   ];
@@ -41,7 +44,7 @@ const Footer = () => {
               <span className="ml-3 text-xl font-bold">IVAO Middle East</span>
             </div>
             <p className="text-gray-400 text-sm">
-              Copyright © 2025 XM Middle East Division
+              {t('footer.copyright')}
             </p>
           </div>
 
@@ -69,7 +72,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              Enhancing virtual aviation skills across the Middle East region
+              {t('footer.tagline')}
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
