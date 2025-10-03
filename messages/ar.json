@@ -1,0 +1,131 @@
+{
+  "navigation": {
+    "division": "الفرع",
+    "pilots": "الطيارون",
+    "controllers": "مراقبو الحركة الجوية",
+    "training": "التدريب",
+    "resources": "الموارد",
+    "admin": "الإدارة"
+  },
+  "division": {
+    "aboutUs": "من نحن",
+    "staffTeam": "فريق العمل",
+    "upcomingEvents": "الأحداث القادمة",
+    "virtualAirlines": "الخطوط الجوية الافتراضية",
+    "tours": "الجولات"
+  },
+  "pilots": {
+    "webeye": "ويب آي",
+    "examGuidelines": "إرشادات امتحان/تدريب الطيارين",
+    "communicationManual": "دليل الاتصالات"
+  },
+  "controllers": {
+    "atcOperation": "عمليات مراقبة الحركة الجوية",
+    "examGuidelines": "إرشادات امتحان/تدريب مراقبي الحركة الجوية",
+    "ojaiProcedures": "إجراءات OJAI",
+    "orbiProcedures": "إجراءات ORBI",
+    "osdiProcedures": "إجراءات OSDI"
+  },
+  "training": {
+    "requestTraining": "طلب تدريب",
+    "requestExam": "طلب امتحان",
+    "vfrCommunication": "اتصالات الطيران المرئي",
+    "ifrCommunication": "اتصالات الطيران الآلي"
+  },
+  "resources": {
+    "charts": "الخرائط الجوية",
+    "scenery": "المشاهد",
+    "joinIvao": "انضم إلى IVAO",
+    "forum": "المنتدى",
+    "transfers": "نقل الفرع",
+    "wiki": "ويكي XM",
+    "rules": "القواعد واللوائح"
+  },
+  "hero": {
+    "title": "فرع IVAO الشرق الأوسط",
+    "description1": "طور مهاراتك في الطيران الافتراضي مع التدريب المهني والدعم المخصص",
+    "description2": "انضم إلينا اليوم واختبر أعلى معايير محاكاة الطيران ومراقبة الحركة الجوية",
+    "description3": "تواصل مع عشاق الطيران من جميع أنحاء منطقة الشرق الأوسط",
+    "description4": "أتقن فن الطيران الافتراضي مع برامجنا التدريبية الشاملة",
+    "joinIvao": "انضم إلى IVAO",
+    "learnMore": "اعرف المزيد",
+    "firTitle": "مناطق معلومات الطيران (FIR)"
+  },
+  "statusBars": {
+    "ivaoNetwork": {
+      "title": "شبكة IVAO",
+      "description": "شبكة عالمية للطيارين ومراقبي الحركة الجوية الافتراضيين"
+    },
+    "seamlessGrowth": {
+      "title": "النمو السلس",
+      "description": "التقدم السلس من الأساسي إلى المتقدم"
+    },
+    "dedicatedSupport": {
+      "title": "الدعم المخصص",
+      "description": "التدريب المتزامن عبر تصنيفات متعددة"
+    }
+  },
+  "widgets": {
+    "zuluTime": {
+      "title": "التوقيت الزولو",
+      "utc": "التوقيت العالمي المنسق"
+    },
+    "traffic": {
+      "title": "الحركة الجوية الحالية",
+      "inbound": "قادم",
+      "outbound": "مغادر",
+      "online": "متصل",
+      "atc": "مراقب الحركة الجوية",
+      "refreshData": "تحديث البيانات",
+      "refreshing": "جاري التحديث...",
+      "dataSource": "البيانات من واجهة برمجة تطبيقات IVAO Whazzup",
+      "updated": "تم التحديث"
+    },
+    "weather": {
+      "title": "حالة الطقس",
+      "visibility": "الرؤية",
+      "wind": "الرياح",
+      "pressure": "الضغط",
+      "refreshWeather": "تحديث الطقس",
+      "refreshing": "جاري التحديث..."
+    }
+  },
+  "footer": {
+    "copyright": "حقوق النشر © 2025 فرع XM الشرق الأوسط",
+    "pilots": "الطيارون",
+    "controllers": "مراقبو الحركة الجوية",
+    "headquarters": "المقر الرئيسي",
+    "hq": "المقر الرئيسي",
+    "staffTeams": "فرق العمل",
+    "policies": "السياسات",
+    "contacts": "جهات الاتصال",
+    "tagline": "تعزيز مهارات الطيران الافتراضي عبر منطقة الشرق الأوسط"
+  },
+  "auth": {
+    "signIn": "تسجيل الدخول",
+    "username": "اسم المستخدم",
+    "usernamePlaceholder": "أدخل اسم المستخدم",
+    "password": "كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "signingIn": "جاري تسجيل الدخول...",
+    "demoCredentials": "بيانات الاعتماد التجريبية",
+    "invalidCredentials": "اسم المستخدم أو كلمة المرور غير صحيحة",
+    "logout": "تسجيل الخروج"
+  },
+  "admin": {
+    "title": "لوحة الإدارة",
+    "backgroundImage": "صورة الخلفية",
+    "backgroundImageUrl": "رابط صورة الخلفية",
+    "preview": "معاينة",
+    "heroTexts": "نصوص القسم الرئيسي",
+    "addNewText": "إضافة نص جديد",
+    "add": "إضافة",
+    "remove": "إزالة",
+    "saveSettings": "حفظ الإعدادات"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح"
+  }
+}

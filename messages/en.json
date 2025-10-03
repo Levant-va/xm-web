@@ -1,0 +1,131 @@
+{
+  "navigation": {
+    "division": "Division",
+    "pilots": "Pilots",
+    "controllers": "Controllers",
+    "training": "Training",
+    "resources": "Resources",
+    "admin": "Admin"
+  },
+  "division": {
+    "aboutUs": "About us",
+    "staffTeam": "Staff Team",
+    "upcomingEvents": "Upcoming Events",
+    "virtualAirlines": "Virtual Airlines",
+    "tours": "Tours"
+  },
+  "pilots": {
+    "webeye": "Webeye",
+    "examGuidelines": "Pilot Exam/Training Guidelines",
+    "communicationManual": "Communication Manual"
+  },
+  "controllers": {
+    "atcOperation": "ATC Operation",
+    "examGuidelines": "ATC Exam/Training Guidelines",
+    "ojaiProcedures": "OJAI Procedures",
+    "orbiProcedures": "ORBI Procedures",
+    "osdiProcedures": "OSDI Procedures"
+  },
+  "training": {
+    "requestTraining": "Request Training",
+    "requestExam": "Request Exam",
+    "vfrCommunication": "VFR Communication",
+    "ifrCommunication": "IFR Communication"
+  },
+  "resources": {
+    "charts": "Aeronautical Charts",
+    "scenery": "Scenery",
+    "joinIvao": "Join IVAO",
+    "forum": "Forum",
+    "transfers": "Division Transfers",
+    "wiki": "XM Wiki",
+    "rules": "Rules & Regulations"
+  },
+  "hero": {
+    "title": "IVAO Middle East Division",
+    "description1": "Enhance your skills in virtual aviation with professional training and dedicated support",
+    "description2": "Join us today and experience the highest standard of flight simulation and air traffic control",
+    "description3": "Connect with aviation enthusiasts from around the Middle East region",
+    "description4": "Master the art of virtual flying with our comprehensive training programs",
+    "joinIvao": "Join IVAO",
+    "learnMore": "Learn More",
+    "firTitle": "Flight Information Regions (FIR)"
+  },
+  "statusBars": {
+    "ivaoNetwork": {
+      "title": "IVAO Network",
+      "description": "Global Network for virtual Pilots and ATCs"
+    },
+    "seamlessGrowth": {
+      "title": "Seamless Growth",
+      "description": "Seamless Progression from Basic to Advanced"
+    },
+    "dedicatedSupport": {
+      "title": "Dedicated Support",
+      "description": "Simultaneous Training Across Multiple Ratings"
+    }
+  },
+  "widgets": {
+    "zuluTime": {
+      "title": "Zulu Time",
+      "utc": "UTC (Coordinated Universal Time)"
+    },
+    "traffic": {
+      "title": "Current Traffic",
+      "inbound": "Inbound",
+      "outbound": "Outbound",
+      "online": "Online",
+      "atc": "ATC",
+      "refreshData": "Refresh Data",
+      "refreshing": "Refreshing...",
+      "dataSource": "Data from IVAO Whazzup API",
+      "updated": "Updated"
+    },
+    "weather": {
+      "title": "Weather Conditions",
+      "visibility": "Visibility",
+      "wind": "Wind",
+      "pressure": "Pressure",
+      "refreshWeather": "Refresh Weather",
+      "refreshing": "Refreshing..."
+    }
+  },
+  "footer": {
+    "copyright": "Copyright © 2025 XM Middle East Division",
+    "pilots": "Pilots",
+    "controllers": "Controllers",
+    "headquarters": "Headquarters (HQ)",
+    "hq": "HQ",
+    "staffTeams": "Staff Teams",
+    "policies": "Policies",
+    "contacts": "Contacts",
+    "tagline": "Enhancing virtual aviation skills across the Middle East region"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "signingIn": "Signing In...",
+    "demoCredentials": "Demo Credentials",
+    "invalidCredentials": "Invalid username or password",
+    "logout": "Logout"
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "backgroundImage": "Background Image",
+    "backgroundImageUrl": "Background Image URL",
+    "preview": "Preview",
+    "heroTexts": "Hero Section Texts",
+    "addNewText": "Add New Text",
+    "add": "Add",
+    "remove": "Remove",
+    "saveSettings": "Save Settings"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  }
+}
