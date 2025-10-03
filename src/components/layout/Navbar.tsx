@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/auth';
 import { useTranslations } from 'next-intl';
@@ -9,8 +9,28 @@ import { LanguageSwitcher } from '@/components/ui';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [zuluTime, setZuluTime] = useState('');
   const { isAuthenticated } = useAuth();
   const t = useTranslations();
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const utcTime = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
+      
+      // Format time as HH:MM:SS Z
+      const timeString = utcTime.toISOString().substr(11, 8);
+      setZuluTime(timeString);
+    };
+
+    // Update immediately
+    updateTime();
+    
+    // Update every second
+    const interval = setInterval(updateTime, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const navigationItems = [
     {
@@ -127,6 +147,19 @@ const Navbar = () => {
 
             {/* Language Switcher */}
             <LanguageSwitcher />
+
+            {/* Zulu Time Display */}
+            <div className="flex items-center space-x-2 px-3 py-2">
+              <div className="text-right">
+                <div className="text-sm font-mono font-bold text-blue-600">
+                  {zuluTime}Z
+                </div>
+                <div className="text-xs text-gray-500">
+                  Zulu Time
+                </div>
+              </div>
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            </div>
           </div>
 
           {/* Mobile menu button */}
@@ -184,6 +217,19 @@ const Navbar = () => {
                   {t('navigation.admin')}
                 </Link>
               )}
+
+              {/* Zulu Time Display for Mobile */}
+              <div className="px-3 py-2 border-t border-gray-200">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm text-gray-600">Zulu Time</div>
+                  <div className="flex items-center space-x-2">
+                    <div className="text-lg font-mono font-bold text-blue-600">
+                      {zuluTime}Z
+                    </div>
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  </div>
+                </div>
+              </div>
 
               {/* Language Switcher for Mobile */}
               <div className="px-3 py-2">
