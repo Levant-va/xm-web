@@ -1,21 +1,18 @@
-import { Navbar, Footer, HeroSection, StatusBars, TrafficWidget } from '@/components';
+import { Navbar, Footer, HeroSection, StatusBars, TrafficWidget, PartnersSection } from '@/components';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       <Navbar />
       <HeroSection />
       
-      {/* Widgets Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
-            <TrafficWidget />
-          </div>
-        </div>
-      </section>
-      
       <StatusBars />
+      
+      <PartnersSection />
+      
+      {/* Extra spacing before footer */}
+      <div className="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
+      
       <Footer />
     </div>
   );

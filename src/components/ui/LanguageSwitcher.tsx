@@ -11,8 +11,8 @@ const LanguageSwitcher = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const languages = [
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'ar', name: 'العربية', flag: '🇸🇦' }
+    { code: 'en', name: 'English', flag: '/img/flag/us.png' },
+    { code: 'ar', name: 'العربية', flag: '/img/flag/sa.png' }
   ];
 
   const currentLanguage = languages.find(lang => lang.code === locale) || languages[0];
@@ -29,9 +29,9 @@ const LanguageSwitcher = () => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors rounded-md hover:bg-gray-100"
+        className="flex items-center space-x-2 px-3 py-2 text-white hover:text-emerald-400 transition-colors rounded-md hover:bg-gray-800"
       >
-        <span className="text-lg">{currentLanguage.flag}</span>
+        <img src={currentLanguage.flag} alt={`${currentLanguage.name} flag`} className="w-5 h-4 object-cover rounded-sm" />
         <span className="text-sm font-medium">{currentLanguage.name}</span>
         <svg
           className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
@@ -44,16 +44,16 @@ const LanguageSwitcher = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-1 w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50">
+        <div className="absolute top-full right-0 mt-1 w-48 bg-gray-800 rounded-md shadow-lg border border-gray-600 py-1 z-50">
           {languages.map((language) => (
             <button
               key={language.code}
               onClick={() => switchLanguage(language.code)}
-              className={`w-full flex items-center space-x-3 px-4 py-2 text-sm hover:bg-blue-50 transition-colors ${
-                locale === language.code ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
+              className={`w-full flex items-center space-x-3 px-4 py-2 text-sm hover:bg-gray-700 transition-colors ${
+                locale === language.code ? 'bg-gray-700 text-emerald-400' : 'text-white'
               }`}
             >
-              <span className="text-lg">{language.flag}</span>
+              <img src={language.flag} alt={`${language.name} flag`} className="w-5 h-4 object-cover rounded-sm" />
               <span className="font-medium">{language.name}</span>
               {locale === language.code && (
                 <svg className="w-4 h-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">

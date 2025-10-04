@@ -61,12 +61,19 @@ const TrafficWidget = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const [error, setError] = useState<string | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   // FIR boundaries (approximate coordinates for Middle East region)
   const firBoundaries = {
     OJAC: { minLat: 29.0, maxLat: 33.0, minLon: 34.0, maxLon: 40.0 },
     OSDI: { minLat: 29.0, maxLat: 37.0, minLon: 38.0, maxLon: 50.0 },
     ORBI: { minLat: 29.0, maxLat: 37.0, minLon: 38.0, maxLon: 50.0 },
+  };
+
+  const firConfig = {
+    OJAC: { color: 'from-emerald-500 to-emerald-600', icon: '🏔️', country: 'Jordan' },
+    OSDI: { color: 'from-amber-500 to-amber-600', icon: '🏛️', country: 'Iraq' },
+    ORBI: { color: 'from-green-500 to-green-600', icon: '🌆', country: 'Iraq' }
   };
 
   const fetchIVAOData = async () => {
@@ -230,6 +237,7 @@ const TrafficWidget = () => {
   };
 
   useEffect(() => {
+    setIsVisible(true);
     fetchIVAOData();
 
     // Refresh data every 60 seconds
@@ -247,75 +255,129 @@ const TrafficWidget = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Current Traffic</h3>
-        <div className="flex items-center space-x-2">
-          <div
-            className={`w-3 h-3 rounded-full ${isLoading ? "bg-yellow-500 animate-pulse" : "bg-green-500"}`}
-          ></div>
-          <span className="text-xs text-gray-500">
-            Updated: {formatTime(lastUpdated)}
-          </span>
+    <div className={`glass rounded-3xl p-8 border-l-4 border-green-500 shadow-xl hover-lift transition-all duration-500 ${
+      isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+    }`}>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <span className="text-2xl">✈️</span>
+          </div>
+          <div>
+            <h3 className="text-2xl font-bold text-gray-900">Live Traffic</h3>
+            <p className="text-sm text-gray-600">Real-time aviation data</p>
+          </div>
+        </div>
+        
+        <div className="flex items-center space-x-3">
+          <div className={`w-3 h-3 rounded-full shadow-lg ${isLoading ? "bg-yellow-500 animate-pulse" : "bg-green-500"}`}></div>
+          <div className="text-right">
+            <div className="text-sm font-mono font-bold text-gray-900">
+              {formatTime(lastUpdated)}
+            </div>
+            <div className="text-xs text-gray-500">
+              Last updated
+            </div>
+          </div>
         </div>
       </div>
 
       {error && (
-        <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
-          <p className="text-sm text-yellow-800">{error}</p>
+        <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
+          <div className="flex items-center space-x-2">
+            <span className="text-yellow-600">⚠️</span>
+            <p className="text-sm text-yellow-800">{error}</p>
+          </div>
         </div>
       )}
 
       {isLoading ? (
-        <div className="space-y-4">
+        <div className="space-y-6">
           {[1, 2, 3].map((i) => (
             <div key={i} className="animate-pulse">
-              <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-12 h-12 bg-gray-200 rounded-2xl"></div>
+                <div className="flex-1">
+                  <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
+                  <div className="h-3 bg-gray-200 rounded w-1/3"></div>
+                </div>
+              </div>
               <div className="grid grid-cols-4 gap-4">
-                <div className="h-8 bg-gray-200 rounded"></div>
-                <div className="h-8 bg-gray-200 rounded"></div>
-                <div className="h-8 bg-gray-200 rounded"></div>
-                <div className="h-8 bg-gray-200 rounded"></div>
+                <div className="h-12 bg-gray-200 rounded-xl"></div>
+                <div className="h-12 bg-gray-200 rounded-xl"></div>
+                <div className="h-12 bg-gray-200 rounded-xl"></div>
+                <div className="h-12 bg-gray-200 rounded-xl"></div>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div className="space-y-4">
-          {trafficData.map((fir) => (
+        <div className="space-y-6">
+          {trafficData.map((fir, index) => (
             <div
               key={fir.fir}
-              className="border-b border-gray-100 pb-4 last:border-b-0"
+              className={`group bg-white/50 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/70 transition-all duration-300 hover:scale-105 border border-gray-200/50 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="font-semibold text-gray-800">{fir.fir}</h4>
-                <span className="text-sm text-gray-600">{fir.name}</span>
+              {/* FIR Header */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-4">
+                  <div className={`w-12 h-12 bg-gradient-to-br ${firConfig[fir.fir as keyof typeof firConfig].color} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <span className="text-xl">{firConfig[fir.fir as keyof typeof firConfig].icon}</span>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-gray-900">{fir.fir}</h4>
+                    <p className="text-sm text-gray-600">{fir.name}</p>
+                    <p className="text-xs text-gray-500">{firConfig[fir.fir as keyof typeof firConfig].country}</p>
+                  </div>
+                </div>
+                
+                {/* Status indicator */}
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-gray-600 font-medium">Active</span>
+                </div>
               </div>
 
-              <div className="grid grid-cols-4 gap-3">
-                <div className="text-center">
-                  <div className="text-xl font-bold text-blue-600">
-                    {fir.inbound}
+              {/* Traffic Stats */}
+              <div className="grid grid-cols-4 gap-4">
+                <div className="text-center group">
+                  <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 mb-2 group-hover:scale-105 transition-transform duration-300">
+                    <div className="text-2xl font-bold text-white">
+                      {fir.inbound}
+                    </div>
                   </div>
-                  <div className="text-xs text-gray-500">Inbound</div>
+                  <div className="text-xs text-gray-600 font-medium">Inbound</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-xl font-bold text-red-600">
-                    {fir.outbound}
+                
+                <div className="text-center group">
+                  <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-4 mb-2 group-hover:scale-105 transition-transform duration-300">
+                    <div className="text-2xl font-bold text-white">
+                      {fir.outbound}
+                    </div>
                   </div>
-                  <div className="text-xs text-gray-500">Outbound</div>
+                  <div className="text-xs text-gray-600 font-medium">Outbound</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-xl font-bold text-green-600">
-                    {fir.online}
+                
+                <div className="text-center group">
+                  <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 mb-2 group-hover:scale-105 transition-transform duration-300">
+                    <div className="text-2xl font-bold text-white">
+                      {fir.online}
+                    </div>
                   </div>
-                  <div className="text-xs text-gray-500">Online</div>
+                  <div className="text-xs text-gray-600 font-medium">Online</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-xl font-bold text-purple-600">
-                    {fir.controllers}
+                
+                <div className="text-center group">
+                  <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 mb-2 group-hover:scale-105 transition-transform duration-300">
+                    <div className="text-2xl font-bold text-white">
+                      {fir.controllers}
+                    </div>
                   </div>
-                  <div className="text-xs text-gray-500">ATC</div>
+                  <div className="text-xs text-gray-600 font-medium">ATC</div>
                 </div>
               </div>
             </div>
@@ -323,16 +385,20 @@ const TrafficWidget = () => {
         </div>
       )}
 
-      <div className="mt-4 pt-4 border-t border-gray-100">
+      {/* Footer */}
+      <div className="mt-8 pt-6 border-t border-gray-200/50">
         <button
           onClick={fetchIVAOData}
           disabled={isLoading}
-          className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+          className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
         >
-          {isLoading ? "Refreshing..." : "Refresh Data"}
+          <span className="flex items-center justify-center space-x-2">
+            <span>{isLoading ? "🔄" : "🔄"}</span>
+            <span>{isLoading ? "Refreshing..." : "Refresh Data"}</span>
+          </span>
         </button>
-        <p className="text-xs text-gray-500 mt-2 text-center">
-          Data from IVAO Whazzup API
+        <p className="text-xs text-gray-500 mt-3 text-center">
+          Data powered by IVAO Whazzup API
         </p>
       </div>
     </div>
