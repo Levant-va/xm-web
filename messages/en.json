@@ -132,6 +132,10 @@
     "remove": "Remove",
     "saveSettings": "Save Settings"
   },
+  "partners": {
+    "title": "Our Partners",
+    "description": "Working together to provide exceptional virtual aviation experiences"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",

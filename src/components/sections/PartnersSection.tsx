@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 const PartnersSection = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const t = useTranslations();
   
   useEffect(() => {
     setIsVisible(true);
@@ -40,12 +42,12 @@ const PartnersSection = () => {
           <div className="flex items-center justify-center mb-8">
             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-600 to-transparent"></div>
             <h2 className="text-4xl font-bold text-white mx-8">
-              Our Partners
+              {t('partners.title')}
             </h2>
             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-600 to-transparent"></div>
           </div>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Working together to provide exceptional virtual aviation experiences
+            {t('partners.description')}
           </p>
         </div>
 
