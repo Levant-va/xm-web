@@ -37,7 +37,8 @@ const HeroSection = () => {
     
     setIsVisible(true);
     
-    const interval = setInterval(() => {
+    // Text rotation interval
+    const textInterval = setInterval(() => {
       setIsTransitioning(true);
       
       setTimeout(() => {
@@ -48,7 +49,7 @@ const HeroSection = () => {
       }, 300);
     }, 5000);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(textInterval);
   }, [animatedTexts.length]);
 
 
@@ -103,7 +104,7 @@ const HeroSection = () => {
         </div>
         
         {/* Animated Description */}
-        <div className={`h-24 flex items-center justify-center mb-16 transition-all duration-1000 delay-300 ${
+        <div className={`h-24 flex items-center justify-center mb-2 transition-all duration-1000 delay-300 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
           <div className="relative w-full max-w-4xl">
@@ -120,6 +121,93 @@ const HeroSection = () => {
                 </span>
               </p>
               <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent opacity-50" />
+            </div>
+          </div>
+        </div>
+        
+        {/* Flag Images */}
+        <div className={`flex justify-center items-center space-x-8 mb-4 transition-all duration-1000 delay-500 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          {/* Jordan Flag */}
+          <div className="relative group">
+            <div className="w-12 h-9 rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/img/flag/jordan.png" 
+                alt="Jordan Flag" 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  // Fallback to colored div if image doesn't exist
+                  e.currentTarget.style.display = 'none';
+                  const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                  if (nextElement) {
+                    nextElement.style.display = 'block';
+                  }
+                }}
+              />
+              <div className="w-full h-full hidden relative">
+                {/* Red triangle on the left */}
+                <div className="absolute left-0 top-0 w-1/3 h-full bg-red-600"></div>
+                {/* Horizontal stripes */}
+                <div className="absolute left-1/3 top-0 w-2/3 h-1/3 bg-black"></div>
+                <div className="absolute left-1/3 top-1/3 w-2/3 h-1/3 bg-white"></div>
+                <div className="absolute left-1/3 top-2/3 w-2/3 h-1/3 bg-green-500"></div>
+              </div>
+            </div>
+            <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-white/80 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Jordan
+            </div>
+          </div>
+
+          {/* Syria Flag */}
+          <div className="relative group">
+            <div className="w-12 h-9 rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/img/flag/syria.png" 
+                alt="Syria Flag" 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                  if (nextElement) {
+                    nextElement.style.display = 'block';
+                  }
+                }}
+              />
+              <div className="w-full h-full hidden relative">
+                <div className="absolute top-0 w-full h-1/3 bg-green-500"></div>
+                <div className="absolute top-1/3 w-full h-1/3 bg-white"></div>
+                <div className="absolute top-2/3 w-full h-1/3 bg-black"></div>
+              </div>
+            </div>
+            <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-white/80 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Syria
+            </div>
+          </div>
+
+          {/* Iraq Flag */}
+          <div className="relative group">
+            <div className="w-12 h-9 rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/img/flag/iraq.png" 
+                alt="Iraq Flag" 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                  if (nextElement) {
+                    nextElement.style.display = 'block';
+                  }
+                }}
+              />
+              <div className="w-full h-full hidden relative">
+                <div className="absolute top-0 w-full h-1/3 bg-red-600"></div>
+                <div className="absolute top-1/3 w-full h-1/3 bg-white"></div>
+                <div className="absolute top-2/3 w-full h-1/3 bg-black"></div>
+              </div>
+            </div>
+            <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-white/80 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Iraq
             </div>
           </div>
         </div>

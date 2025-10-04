@@ -83,6 +83,7 @@ const Navbar = () => {
       name: t('navigation.controllers'),
       href: '/controllers',
       submenu: [
+        { name: 'Controller Training / Guidelines', href: 'https://wiki.ivao.aero/en/home/training/documentation', external: true },
         { name: t('controllers.atcOperation'), href: '/controllers/atc-operation' },
         { name: t('controllers.examGuidelines'), href: '/controllers/exam-guidelines' },
         { name: t('controllers.ojaiProcedures'), href: '/controllers/ojai-procedures' },

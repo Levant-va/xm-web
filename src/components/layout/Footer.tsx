@@ -10,6 +10,7 @@ const Footer = () => {
     {
       title: t('footer.pilots'),
       links: [
+        { name: 'Pilot Training / Guidelines', href: 'https://wiki.ivao.aero/en/home/training/documentation', external: true },
         { name: t('resources.charts'), href: '/resources/charts' },
         { name: t('pilots.examGuidelines'), href: '/pilots/exam-guidelines' },
         { name: t('pilots.webeye'), href: '/pilots/webeye' },
@@ -19,6 +20,7 @@ const Footer = () => {
     {
       title: t('footer.controllers'),
       links: [
+        { name: 'Controller Training / Guidelines', href: 'https://wiki.ivao.aero/en/home/training/documentation', external: true },
         { name: t('training.requestTraining'), href: '/training/request-training' },
         { name: t('controllers.examGuidelines'), href: '/controllers/exam-guidelines' },
         { name: t('controllers.atcOperation'), href: '/controllers/atc-operation' },
@@ -76,12 +78,24 @@ const Footer = () => {
               <ul className="space-y-3">
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
-                    <Link
-                      href={link.href}
-                      className="flex items-center space-x-2 text-gray-300 hover:text-white transition-all duration-300 hover:translate-x-1 group"
-                    >
-                      <span className="text-sm">{link.name}</span>
-                    </Link>
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-2 text-gray-300 hover:text-white transition-all duration-300 hover:translate-x-1 group"
+                      >
+                        <span className="text-sm">{link.name}</span>
+                        <span className="text-xs opacity-70">↗</span>
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="flex items-center space-x-2 text-gray-300 hover:text-white transition-all duration-300 hover:translate-x-1 group"
+                      >
+                        <span className="text-sm">{link.name}</span>
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
