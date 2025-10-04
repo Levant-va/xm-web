@@ -18,7 +18,8 @@
   "pilots": {
     "webeye": "ويب آي",
     "examGuidelines": "إرشادات امتحان/تدريب الطيارين",
-    "communicationManual": "دليل الاتصالات"
+    "communicationManual": "دليل الاتصالات",
+    "ivaoTracker": "متتبع IVAO"
   },
   "controllers": {
     "atcOperation": "عمليات مراقبة الحركة الجوية",

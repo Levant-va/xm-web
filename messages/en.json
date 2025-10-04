@@ -18,7 +18,8 @@
   "pilots": {
     "webeye": "Webeye",
     "examGuidelines": "Pilot Exam/Training Guidelines",
-    "communicationManual": "Communication Manual"
+    "communicationManual": "Communication Manual",
+    "ivaoTracker": "IVAO Tracker"
   },
   "controllers": {
     "atcOperation": "ATC Operation",

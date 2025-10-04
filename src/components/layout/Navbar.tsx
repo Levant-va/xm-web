@@ -73,9 +73,10 @@ const Navbar = () => {
       name: t('navigation.pilots'),
       href: '/pilots',
       submenu: [
-        { name: t('pilots.webeye'), href: '/pilots/webeye' },
-        { name: t('pilots.examGuidelines'), href: '/pilots/exam-guidelines' },
+        { name: t('pilots.webeye'), href: 'https://webeye.ivao.aero/', external: true },
+        { name: t('pilots.examGuidelines'), href: 'https://wiki.ivao.aero/en/home/training/documentation', external: true },
         { name: t('pilots.communicationManual'), href: '/pilots/communication-manual' },
+        { name: t('pilots.ivaoTracker'), href: 'https://tracker.ivao.aero/', external: true },
       ]
     },
     {
