@@ -14,8 +14,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Simple hardcoded credentials for demo purposes
 // In production, this should be handled by a proper backend
 const ADMIN_CREDENTIALS = {
-  username: 'admin',
-  password: 'ivao2025'
+  username: 'xmivaowm',
+  password: '@$@D@XMTIVAO'
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {

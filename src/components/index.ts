@@ -12,3 +12,6 @@ export * from './auth';
 
 // Widget Components
 export * from './widgets';
+
+// Context Components
+export * from './context/BackgroundImageContext';

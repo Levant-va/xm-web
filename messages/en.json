@@ -1,5 +1,6 @@
 {
   "navigation": {
+    "home": "Home",
     "division": "Division",
     "pilots": "Pilots",
     "controllers": "Controllers",
@@ -9,8 +10,8 @@
   },
   "division": {
     "aboutUs": "About us",
-    "staffTeam": "Staff Team",
-    "upcomingEvents": "Upcoming Events",
+    "divisionalStaff": "Divisional Staff",
+    "divisionalEvents": "Divisional Events",
     "virtualAirlines": "Virtual Airlines",
     "tours": "Tours"
   },

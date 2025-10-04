@@ -1,5 +1,6 @@
 {
   "navigation": {
+    "home": "الرئيسية",
     "division": "الفرع",
     "pilots": "الطيارون",
     "controllers": "مراقبو الحركة الجوية",
@@ -9,8 +10,8 @@
   },
   "division": {
     "aboutUs": "من نحن",
-    "staffTeam": "فريق العمل",
-    "upcomingEvents": "الأحداث القادمة",
+    "divisionalStaff": "الموظفون الإقليميون",
+    "divisionalEvents": "الأحداث الإقليمية",
     "virtualAirlines": "الخطوط الجوية الافتراضية",
     "tours": "الجولات"
   },

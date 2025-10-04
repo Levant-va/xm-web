@@ -64,11 +64,9 @@ const Navbar = () => {
       name: t('navigation.division'),
       href: '/division',
       submenu: [
-        { name: t('division.aboutUs'), href: '/division/about' },
-        { name: t('division.staffTeam'), href: '/division/staff' },
-        { name: t('division.upcomingEvents'), href: '/division/events' },
-        { name: t('division.virtualAirlines'), href: '/division/virtual-airlines' },
-        { name: t('division.tours'), href: '/division/tours' },
+        { name: t('division.divisionalStaff'), href: 'https://www.ivao.aero/staff/division.asp?Id=XM', external: true },
+        { name: t('division.divisionalEvents'), href: '/division/events' },
+        { name: t('division.tours'), href: 'https://tours.th.ivao.aero/index.php?div=XM', external: true },
       ]
     },
     {
@@ -138,6 +136,19 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
+            {/* Home Button */}
+            <Link
+              href="/"
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                isScrolled 
+                  ? 'text-white hover:text-emerald-400 hover:bg-gray-800' 
+                  : 'text-white/90 hover:text-white hover:bg-white/10 text-shadow'
+              }`}
+            >
+              <span className="text-base">🏠</span>
+              <span>{t('navigation.home')}</span>
+            </Link>
+            
             {navigationItems.map((item) => (
               <div
                 key={item.name}
@@ -161,13 +172,26 @@ const Navbar = () => {
                     className="navbar-dropdown absolute top-full left-0 mt-2 w-72 glass rounded-xl shadow-xl border border-white/20 py-2 z-50 animate-fade-in-up"
                   >
                     {item.submenu.map((subItem) => (
-                      <Link
-                        key={subItem.name}
-                        href={subItem.href}
-                        className="flex items-center space-x-3 px-4 py-3 text-sm text-white hover:bg-gray-800 hover:text-emerald-400 transition-all duration-200 group"
-                      >
-                        <span>{subItem.name}</span>
-                      </Link>
+                      subItem.external ? (
+                        <a
+                          key={subItem.name}
+                          href={subItem.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center space-x-3 px-4 py-3 text-sm text-white hover:bg-gray-800 hover:text-emerald-400 transition-all duration-200 group"
+                        >
+                          <span>{subItem.name}</span>
+                          <span className="text-xs opacity-70">↗</span>
+                        </a>
+                      ) : (
+                        <Link
+                          key={subItem.name}
+                          href={subItem.href}
+                          className="flex items-center space-x-3 px-4 py-3 text-sm text-white hover:bg-gray-800 hover:text-emerald-400 transition-all duration-200 group"
+                        >
+                          <span>{subItem.name}</span>
+                        </Link>
+                      )
                     ))}
                   </div>
                 )}
@@ -177,7 +201,7 @@ const Navbar = () => {
             {/* Admin Link - Only visible when authenticated */}
             {isAuthenticated && (
               <Link
-                href="/admin"
+                href="/admin/dashboard"
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
                   isScrolled 
                     ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50' 
@@ -239,6 +263,16 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden animate-fade-in-up">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 glass rounded-xl mt-2 border border-white/20">
+              {/* Home Button for Mobile */}
+              <Link
+                href="/"
+                className="flex items-center space-x-3 text-white hover:text-emerald-400 block px-3 py-3 rounded-lg text-base font-medium hover:bg-gray-800 transition-all duration-200"
+                onClick={() => setIsOpen(false)}
+              >
+                <span className="text-lg">🏠</span>
+                <span>{t('navigation.home')}</span>
+              </Link>
+              
               {navigationItems.map((item) => (
                 <div key={item.name}>
                   <button
@@ -252,14 +286,28 @@ const Navbar = () => {
                   </button>
                   <div className="pl-6 space-y-1">
                     {item.submenu.map((subItem) => (
-                      <Link
-                        key={subItem.name}
-                        href={subItem.href}
-                        className="flex items-center space-x-3 text-gray-300 hover:text-emerald-400 block px-3 py-2 rounded-lg text-sm hover:bg-gray-800 transition-all duration-200"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        <span>{subItem.name}</span>
-                      </Link>
+                      subItem.external ? (
+                        <a
+                          key={subItem.name}
+                          href={subItem.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center space-x-3 text-gray-300 hover:text-emerald-400 block px-3 py-2 rounded-lg text-sm hover:bg-gray-800 transition-all duration-200"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <span>{subItem.name}</span>
+                          <span className="text-xs opacity-70">↗</span>
+                        </a>
+                      ) : (
+                        <Link
+                          key={subItem.name}
+                          href={subItem.href}
+                          className="flex items-center space-x-3 text-gray-300 hover:text-emerald-400 block px-3 py-2 rounded-lg text-sm hover:bg-gray-800 transition-all duration-200"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <span>{subItem.name}</span>
+                        </Link>
+                      )
                     ))}
                   </div>
                 </div>
@@ -268,7 +316,7 @@ const Navbar = () => {
               {/* Admin Link - Only visible when authenticated */}
               {isAuthenticated && (
                 <Link
-                  href="/admin"
+                  href="/admin/dashboard"
                   className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 block px-3 py-3 rounded-lg text-base font-medium hover:bg-blue-50 transition-all duration-200"
                   onClick={() => setIsOpen(false)}
                 >

@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { useBackgroundImage } from '@/components/context/BackgroundImageContext';
 
 const HeroSection = () => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const t = useTranslations();
+  const { backgroundImage } = useBackgroundImage();
   
   const animatedTexts = [
     t('hero.description1'),
@@ -36,8 +38,22 @@ const HeroSection = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900">
+      {/* Background Container */}
+      <div className="absolute inset-0">
+        {/* Show uploaded image if available, otherwise show gradient */}
+        {backgroundImage ? (
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url(${backgroundImage})`,
+            }}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900"></div>
+        )}
+        
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/40"></div>
         {/* Floating particles */}
         <div className="absolute inset-0">
           {[...Array(50)].map((_, i) => (
@@ -54,16 +70,6 @@ const HeroSection = () => {
           ))}
         </div>
         
-        {/* Background Image with overlay */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-          style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')"
-          }}
-        />
-        
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />
       </div>
       
       {/* Content */}
