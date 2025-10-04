@@ -56,11 +56,14 @@ const LiveControllerWidget = () => {
     'OSTT', 'OSDI', 'OSLK', 'OSPR',
     
     // Iraq (ORBB FIR)
-    'ORBB', 'ORBI', 'ORBM', 'ORBS', 'ORER', 'ORMM', 'ORNI', 'ORSU', 'ORTL'
+    'ORBB', 'ORBI', 'ORBM', 'ORBS', 'ORER', 'ORMM', 'ORNI', 'ORSU', 'ORTL',
+    
+    // Oman (OXMF FIR)
+    'OXMF'
   ];
 
   // Main FIR centers that can have CTR positions
-  const firCenters = ['OJAC', 'OSTT', 'ORBB'];
+  const firCenters = ['OJAC', 'OSTT', 'ORBB', 'OXMF'];
 
   const fetchControllerData = async () => {
     try {
