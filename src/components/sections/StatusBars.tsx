@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 const StatusBars = () => {
   const t = useTranslations();
@@ -109,11 +110,13 @@ const StatusBars = () => {
                 </p>
               </div>
               <div className="order-1 lg:order-2">
-                <img 
+                <Image 
                   src="/img/Pilot-Support.png" 
                   alt="Pilot Support" 
+                  width={526}
+                  height={370}
                   className="rounded-3xl shadow-lg"
-                  style={{ width: '526px', height: '370px', objectFit: 'contain', borderRadius: '2rem' }}
+                  style={{ objectFit: 'contain' }}
                 />
               </div>
             </div>
@@ -123,11 +126,13 @@ const StatusBars = () => {
           <div className="bg-transparent border-2 border-gray-600 rounded-3xl p-8 shadow-xl">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div className="order-1">
-                <img 
+                <Image 
                   src="/img/ATC-Training.png" 
                   alt="ATC Training" 
+                  width={526}
+                  height={370}
                   className="rounded-3xl shadow-lg"
-                  style={{ width: '526px', height: '370px', objectFit: 'contain', borderRadius: '2rem' }}
+                  style={{ objectFit: 'contain' }}
                 />
               </div>
               <div className="order-2">

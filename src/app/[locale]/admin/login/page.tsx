@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth';
+import Image from 'next/image';
 
 const AdminLoginPage = () => {
   const [username, setUsername] = useState('');
@@ -38,9 +39,11 @@ const AdminLoginPage = () => {
       <div className="text-center mb-8">
         {/* Logo */}
         <div className="w-48 h-48 flex items-center justify-center mb-6 mx-auto">
-          <img 
+          <Image 
             src="/img/xm-logo.png" 
             alt="XM Logo" 
+            width={192}
+            height={192}
             className="w-full h-full object-contain"
           />
         </div>

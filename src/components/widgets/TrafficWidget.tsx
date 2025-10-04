@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface TrafficData {
   fir: string;
@@ -76,7 +76,7 @@ const TrafficWidget = () => {
     ORBI: { color: 'from-green-500 to-green-600', icon: '🌆', country: 'Iraq' }
   };
 
-  const fetchIVAOData = async () => {
+  const fetchIVAOData = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -138,7 +138,7 @@ const TrafficWidget = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   const parseWhazzupData = (data: string) => {
     const lines = data.split("\n");
@@ -244,7 +244,7 @@ const TrafficWidget = () => {
     const interval = setInterval(fetchIVAOData, 60000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchIVAOData]);
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString("en-US", {

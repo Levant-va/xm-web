@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 interface WeatherData {
   airport: string;
@@ -17,17 +17,118 @@ interface WeatherData {
   rawMetar: string;
 }
 
+interface WeatherInfo {
+  temperature?: { value: number } | number;
+  dewpoint?: { value: number } | number;
+  wind_speed?: { value: number } | number;
+  wind_direction?: { value: number | string } | number | string;
+  visibility?: { value: number } | number;
+  altimeter?: { value: number } | number;
+  weather?: Array<{ code: string }>;
+  clouds?: Array<{ code: string }>;
+}
+
+interface AvwxResponse {
+  raw?: string;
+  info?: WeatherInfo;
+}
+
 const AirportWeatherWidget = () => {
   const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
 
-  const airports = ['OJAI', 'OSDI', 'ORBI'];
+  const airports = useMemo(() => ['OJAI', 'OSDI', 'ORBI'], []);
 
-  const fetchMetarData = async () => {
+  const fetchMetarData = useCallback(async () => {
+    // Helper function to safely extract numeric values
+    const getNumericValue = (value: number | { value: number } | undefined, fallback: number): number => {
+      if (typeof value === 'number') return value;
+      if (value && typeof value === 'object' && 'value' in value) return value.value;
+      return fallback;
+    };
+    
+    // Helper function to safely extract string/number values
+    const getValue = (value: number | string | { value: number | string } | undefined, fallback: number | string): number | string => {
+      if (typeof value === 'number' || typeof value === 'string') return value;
+      if (value && typeof value === 'object' && 'value' in value) return value.value;
+      return fallback;
+    };
+
+    const parseAvwxMetar = (airport: string, data: AvwxResponse): WeatherData => {
+      try {
+        console.log(`Parsing METAR for ${airport}:`, data);
+        
+        const rawMetar = data.raw || '';
+        const info = data.info || {};
+        
+        // Extract basic weather data with better fallbacks
+        const temperature = getNumericValue(info.temperature, 25);
+        const dewpoint = getNumericValue(info.dewpoint, temperature - 5);
+        const windSpeed = getNumericValue(info.wind_speed, 5);
+        const windDirectionRaw = getValue(info.wind_direction, 'VRB');
+        const visibility = getNumericValue(info.visibility, 10);
+        const pressure = getNumericValue(info.altimeter, 1013);
+        
+        // Convert wind direction to readable format
+        let windDirection = 'VRB';
+        if (typeof windDirectionRaw === 'number') {
+          const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+          const index = Math.round(windDirectionRaw / 22.5) % 16;
+          windDirection = directions[index];
+        } else if (typeof windDirectionRaw === 'string') {
+          windDirection = windDirectionRaw;
+        }
+        
+        // Determine weather condition from weather codes
+        let condition = 'Clear';
+        const weather = info.weather || [];
+        
+        if (weather.some((w) => w.code === 'RA')) condition = 'Rain';
+        else if (weather.some((w) => w.code === 'SN')) condition = 'Snow';
+        else if (weather.some((w) => w.code === 'FG')) condition = 'Fog';
+        else if (weather.some((w) => w.code === 'BR')) condition = 'Mist';
+        else if (weather.some((w) => w.code === 'HZ')) condition = 'Haze';
+        else if (weather.some((w) => w.code === 'TS')) condition = 'Thunderstorm';
+        else if (weather.some((w) => w.code === 'SH')) condition = 'Showers';
+        
+        // Determine cloud condition with priority
+        const clouds = info.clouds || [];
+        if (clouds.some((c) => c.code === 'OVC')) condition = 'Cloudy';
+        else if (clouds.some((c) => c.code === 'BKN')) condition = 'Mostly Cloudy';
+        else if (clouds.some((c) => c.code === 'SCT')) condition = 'Partly Cloudy';
+        else if (clouds.some((c) => c.code === 'FEW')) condition = 'Few Clouds';
+        
+        // Calculate humidity from temperature and dewpoint
+        const humidity = Math.round(100 * Math.exp((17.625 * dewpoint) / (243.04 + dewpoint)) / Math.exp((17.625 * temperature) / (243.04 + temperature)));
+        
+        // Get cloud coverage
+        const cloudCoverage = clouds.length > 0 ? clouds[0].code : 'CLR';
+        
+        const result = {
+          airport,
+          metar: rawMetar.substring(0, 50) + (rawMetar.length > 50 ? '...' : ''),
+          temperature: Math.round(temperature),
+          condition,
+          windSpeed: Math.round(windSpeed),
+          windDirection: windDirection.toString(),
+          visibility: Math.round(visibility),
+          pressure: Math.round(pressure),
+          humidity,
+          dewpoint: Math.round(dewpoint),
+          clouds: cloudCoverage,
+          rawMetar: rawMetar
+        };
+        
+        console.log(`Parsed weather data for ${airport}:`, result);
+        return result;
+      } catch (err) {
+        console.warn(`Error parsing AVWX METAR for ${airport}:`, err);
+        return getMockWeatherData(airport);
+      }
+    };
+
     try {
       setLoading(true);
-      setError('');
       
       const apiToken = process.env.NEXT_PUBLIC_AVWX_API_TOKEN;
       
@@ -70,87 +171,13 @@ const AirportWeatherWidget = () => {
       
       const results = await Promise.all(weatherPromises);
       setWeatherData(results);
-    } catch (err) {
-      setError('Failed to fetch weather data');
+    } catch {
       // Use mock data as fallback
       setWeatherData(airports.map(getMockWeatherData));
     } finally {
       setLoading(false);
     }
-  };
-
-  const parseAvwxMetar = (airport: string, data: any): WeatherData => {
-    try {
-      console.log(`Parsing METAR for ${airport}:`, data);
-      
-      const rawMetar = data.raw || '';
-      const info = data.info || {};
-      
-      // Extract basic weather data with better fallbacks
-      const temperature = info.temperature?.value ?? info.temperature ?? 25;
-      const dewpoint = info.dewpoint?.value ?? info.dewpoint ?? temperature - 5;
-      const windSpeed = info.wind_speed?.value ?? info.wind_speed ?? 5;
-      const windDirectionRaw = info.wind_direction?.value ?? info.wind_direction ?? 'VRB';
-      const visibility = info.visibility?.value ?? info.visibility ?? 10;
-      const pressure = info.altimeter?.value ?? info.altimeter ?? 1013;
-      
-      // Convert wind direction to readable format
-      let windDirection = 'VRB';
-      if (typeof windDirectionRaw === 'number') {
-        const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
-        const index = Math.round(windDirectionRaw / 22.5) % 16;
-        windDirection = directions[index];
-      } else if (typeof windDirectionRaw === 'string') {
-        windDirection = windDirectionRaw;
-      }
-      
-      // Determine weather condition from weather codes
-      let condition = 'Clear';
-      const weather = info.weather || [];
-      
-      if (weather.some((w: any) => w.code === 'RA')) condition = 'Rain';
-      else if (weather.some((w: any) => w.code === 'SN')) condition = 'Snow';
-      else if (weather.some((w: any) => w.code === 'FG')) condition = 'Fog';
-      else if (weather.some((w: any) => w.code === 'BR')) condition = 'Mist';
-      else if (weather.some((w: any) => w.code === 'HZ')) condition = 'Haze';
-      else if (weather.some((w: any) => w.code === 'TS')) condition = 'Thunderstorm';
-      else if (weather.some((w: any) => w.code === 'SH')) condition = 'Showers';
-      
-      // Determine cloud condition with priority
-      const clouds = info.clouds || [];
-      if (clouds.some((c: any) => c.code === 'OVC')) condition = 'Cloudy';
-      else if (clouds.some((c: any) => c.code === 'BKN')) condition = 'Mostly Cloudy';
-      else if (clouds.some((c: any) => c.code === 'SCT')) condition = 'Partly Cloudy';
-      else if (clouds.some((c: any) => c.code === 'FEW')) condition = 'Few Clouds';
-      
-      // Calculate humidity from temperature and dewpoint
-      const humidity = Math.round(100 * Math.exp((17.625 * dewpoint) / (243.04 + dewpoint)) / Math.exp((17.625 * temperature) / (243.04 + temperature)));
-      
-      // Get cloud coverage
-      const cloudCoverage = clouds.length > 0 ? clouds[0].code : 'CLR';
-      
-      const result = {
-        airport,
-        metar: rawMetar.substring(0, 50) + (rawMetar.length > 50 ? '...' : ''),
-        temperature: Math.round(temperature),
-        condition,
-        windSpeed: Math.round(windSpeed),
-        windDirection: windDirection.toString(),
-        visibility: Math.round(visibility),
-        pressure: Math.round(pressure),
-        humidity,
-        dewpoint: Math.round(dewpoint),
-        clouds: cloudCoverage,
-        rawMetar: rawMetar
-      };
-      
-      console.log(`Parsed weather data for ${airport}:`, result);
-      return result;
-    } catch (err) {
-      console.warn(`Error parsing AVWX METAR for ${airport}:`, err);
-      return getMockWeatherData(airport);
-    }
-  };
+  }, [airports]);
 
   const getMockWeatherData = (airport: string): WeatherData => {
     const mockData = {
@@ -211,38 +238,7 @@ const AirportWeatherWidget = () => {
     const interval = setInterval(fetchMetarData, 1800000);
     
     return () => clearInterval(interval);
-  }, []);
-
-  const getWeatherIcon = (condition: string) => {
-    switch (condition.toLowerCase()) {
-      case 'clear':
-        return '☀️';
-      case 'partly cloudy':
-        return '⛅';
-      case 'cloudy':
-        return '☁️';
-      case 'rain':
-        return '🌧️';
-      case 'storm':
-        return '⛈️';
-      default:
-        return '🌤️';
-    }
-  };
-
-  const getWindDirection = (direction: string) => {
-    const directions: { [key: string]: string } = {
-      'N': '↑',
-      'NE': '↗',
-      'E': '→',
-      'SE': '↘',
-      'S': '↓',
-      'SW': '↙',
-      'W': '←',
-      'NW': '↖'
-    };
-    return directions[direction] || '→';
-  };
+  }, [fetchMetarData]);
 
   if (loading) {
     return (

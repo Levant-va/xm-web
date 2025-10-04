@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useBackgroundImage } from '@/components/context/BackgroundImageContext';
+import Image from 'next/image';
 
 const HeroSection = () => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
@@ -132,9 +133,11 @@ const HeroSection = () => {
           {/* Jordan Flag */}
           <div className="relative group">
             <div className="w-12 h-9 rounded-lg overflow-hidden shadow-lg">
-              <img 
+              <Image 
                 src="/img/flag/jordan.png" 
                 alt="Jordan Flag" 
+                width={48}
+                height={36}
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   // Fallback to colored div if image doesn't exist
@@ -162,9 +165,11 @@ const HeroSection = () => {
           {/* Syria Flag */}
           <div className="relative group">
             <div className="w-12 h-9 rounded-lg overflow-hidden shadow-lg">
-              <img 
+              <Image 
                 src="/img/flag/syria.png" 
                 alt="Syria Flag" 
+                width={48}
+                height={36}
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
@@ -188,9 +193,11 @@ const HeroSection = () => {
           {/* Iraq Flag */}
           <div className="relative group">
             <div className="w-12 h-9 rounded-lg overflow-hidden shadow-lg">
-              <img 
+              <Image 
                 src="/img/flag/iraq.png" 
                 alt="Iraq Flag" 
+                width={48}
+                height={36}
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';

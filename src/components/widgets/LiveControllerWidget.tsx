@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 interface ControllerData {
   id: number;
@@ -45,10 +45,9 @@ const LiveControllerWidget = () => {
   const [controllers, setControllers] = useState<ControllerData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [lastUpdate, setLastUpdate] = useState<string>('');
 
   // Middle East FIR controller callsigns
-  const middleEastControllers = [
+  const middleEastControllers = useMemo(() => [
     // Jordan (OJAC FIR)
     'OJAC', 'OJAI', 'OJAM',
     
@@ -60,12 +59,12 @@ const LiveControllerWidget = () => {
     
     // Oman (OXMF FIR)
     'OXMF'
-  ];
+  ], []);
 
   // Main FIR centers that can have CTR positions
-  const firCenters = ['OJAC', 'OSTT', 'ORBB', 'OXMF'];
+  const firCenters = useMemo(() => ['OJAC', 'OSTT', 'ORBB', 'OXMF'], []);
 
-  const fetchControllerData = async () => {
+  const fetchControllerData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -132,7 +131,7 @@ const LiveControllerWidget = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [middleEastControllers, firCenters]);
 
   useEffect(() => {
     fetchControllerData();
@@ -141,7 +140,7 @@ const LiveControllerWidget = () => {
     const interval = setInterval(fetchControllerData, 30000);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchControllerData]);
 
   const getPositionColor = (position: string) => {
     switch (position.toLowerCase()) {

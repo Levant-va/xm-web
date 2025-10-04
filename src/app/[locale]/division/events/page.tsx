@@ -36,7 +36,7 @@ export default function DivisionEventsPage() {
             </div>
             <h2 className="text-3xl font-bold text-white mb-4">No Events at This Time</h2>
             <p className="text-gray-300 text-lg mb-6">
-              We're currently planning exciting events for the Middle East Division. 
+              We&apos;re currently planning exciting events for the Middle East Division. 
               Stay tuned for upcoming virtual aviation activities!
             </p>
             <div className="flex items-center justify-center space-x-2 text-blue-400">

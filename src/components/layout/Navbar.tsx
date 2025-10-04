@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/components/auth';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '@/components/ui';
+import Image from 'next/image';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -126,9 +127,11 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center group -mt-2">
               <div className="h-40 w-40 rounded-xl overflow-hidden group-hover:scale-105 transition-transform duration-300">
-                <img 
+                <Image 
                   src="/img/xm-logo.png" 
                   alt="XM Logo" 
+                  width={160}
+                  height={160}
                   className="w-full h-full object-contain"
                 />
               </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 interface FlightData {
   id: number;
@@ -50,11 +50,9 @@ const LiveTrafficWidget = () => {
   const [flights, setFlights] = useState<FlightData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showBoth, setShowBoth] = useState(true);
-  const [lastUpdate, setLastUpdate] = useState<string>('');
 
   // Middle East FIR airports - All airports in OJAC, OSTT, ORBB FIRs
-  const middleEastAirports = [
+  const middleEastAirports = useMemo(() => [
     // OJAC FIR (Jordan)
     'OJAI', 'OJAM', 'OJAQ', 'OJMF', 'OJMN', 'OJMR', 'OJMS', 'OJQN', 'OJQO', 'OJQS', 'OJQT', 'OJQU', 'OJQV', 'OJQW', 'OJQX', 'OJQY', 'OJQZ', 'OJRA', 'OJRB', 'OJRC', 'OJRD', 'OJRE', 'OJRF', 'OJRG', 'OJRH', 'OJRI', 'OJRJ', 'OJRK', 'OJRL', 'OJRM', 'OJRN', 'OJRO', 'OJRQ', 'OJRR', 'OJRS', 'OJRT', 'OJRV', 'OJRW', 'OJRX', 'OJRZ', 'OJSA', 'OJSC', 'OJSD', 'OJSE', 'OJSH', 'OJSJ', 'OJSL', 'OJSM', 'OJSN', 'OJSO', 'OJSP', 'OJSQ', 'OJSR', 'OJSS', 'OJST', 'OJSU', 'OJSV', 'OJSW', 'OJSX', 'OJSY', 'OJSZ', 'OJTA', 'OJTB', 'OJTC', 'OJTD', 'OJTE', 'OJTF', 'OJTJ', 'OJTK', 'OJTL', 'OJTM', 'OJTN', 'OJTO', 'OJTP', 'OJTQ', 'OJTR', 'OJTS', 'OJTT', 'OJTZ', 'OJUA', 'OJUB', 'OJUC', 'OJUD', 'OJUH', 'OJUJ', 'OJUQ', 'OJUR', 'OJUS', 'OJUT', 'OJUU', 'OJUW', 'OJUY', 'OJUZ', 'OJVA', 'OJVB', 'OJVC', 'OJVD', 'OJVE', 'OJVF', 'OJVG', 'OJVH', 'OJVJ', 'OJVK', 'OJVN', 'OJVQ', 'OJVU', 'OJVW', 'OJVX', 'OJVY', 'OJVZ', 'OJWA', 'OJWB', 'OJWC', 'OJWD', 'OJWE', 'OJWF', 'OJWG', 'OJWH', 'OJWJ', 'OJWK', 'OJWQ', 'OJWR', 'OJWS', 'OJWT', 'OJWU', 'OJWX', 'OJWY', 'OJWZ', 'OJXA', 'OJXB', 'OJXC', 'OJXD', 'OJXE', 'OJXF', 'OJXG', 'OJXH', 'OJXJ', 'OJXK', 'OJXL', 'OJXM', 'OJXN', 'OJXO', 'OJXP', 'OJXQ', 'OJXR', 'OJXS', 'OJXT', 'OJXU', 'OJXV', 'OJXW', 'OJXX', 'OJXY', 'OJXZ', 'OJYA', 'OJYB', 'OJYC', 'OJYD', 'OJYE', 'OJYF', 'OJYG', 'OJYH', 'OJYJ', 'OJYK', 'OJYL', 'OJYM', 'OJYN', 'OJYO', 'OJYP', 'OJYQ', 'OJYR', 'OJYS', 'OJYT', 'OJYU', 'OJYV', 'OJYW', 'OJYX', 'OJYY', 'OJYZ', 'OJZA', 'OJZB', 'OJZC', 'OJZD', 'OJZE', 'OJZF', 'OJZG', 'OJZH', 'OJZJ', 'OJZK', 'OJZL', 'OJZM', 'OJZN', 'OJZO', 'OJZP', 'OJZQ', 'OJZR', 'OJZS', 'OJZT', 'OJZU', 'OJZV', 'OJZW', 'OJZX', 'OJZY', 'OJZZ',
     
@@ -63,9 +61,9 @@ const LiveTrafficWidget = () => {
     
     // ORBB FIR (Iraq)
     'ORBI', 'ORBM', 'ORBS', 'ORER', 'ORMM', 'ORNI', 'ORSU', 'ORTL', 'ORAA', 'ORAB', 'ORAC', 'ORAD', 'ORAE', 'ORAF', 'ORAG', 'ORAH', 'ORAI', 'ORAJ', 'ORAK', 'ORAL', 'ORAM', 'ORAN', 'ORAO', 'ORAP', 'ORAQ', 'ORAR', 'ORAS', 'ORAT', 'ORAU', 'ORAV', 'ORAW', 'ORAX', 'ORAY', 'ORAZ', 'ORBA', 'ORBB', 'ORBC', 'ORBD', 'ORBE', 'ORBF', 'ORBG', 'ORBH', 'ORBI', 'ORBJ', 'ORBK', 'ORBL', 'ORBM', 'ORBN', 'ORBO', 'ORBP', 'ORBQ', 'ORBR', 'ORBS', 'ORBT', 'ORBU', 'ORBV', 'ORBW', 'ORBX', 'ORBY', 'ORBZ', 'ORCA', 'ORCB', 'ORCC', 'ORCD', 'ORCE', 'ORCF', 'ORCG', 'ORCH', 'ORCI', 'ORCJ', 'ORCK', 'ORCL', 'ORCM', 'ORCN', 'ORCO', 'ORCP', 'ORCQ', 'ORCR', 'ORCS', 'ORCT', 'ORCU', 'ORCV', 'ORCW', 'ORCX', 'ORCY', 'ORCZ', 'ORDA', 'ORDB', 'ORDC', 'ORDD', 'ORDE', 'ORDF', 'ORDG', 'ORDH', 'ORDI', 'ORDJ', 'ORDK', 'ORDL', 'ORDM', 'ORDN', 'ORDO', 'ORDP', 'ORDQ', 'ORDR', 'ORDS', 'ORDT', 'ORDU', 'ORDV', 'ORDW', 'ORDX', 'ORDY', 'ORDZ', 'OREA', 'OREB', 'OREC', 'ORED', 'OREE', 'OREF', 'OREG', 'OREH', 'OREI', 'OREJ', 'OREK', 'OREL', 'OREM', 'OREN', 'OREO', 'OREP', 'OREQ', 'ORER', 'ORES', 'ORET', 'OREU', 'OREV', 'OREW', 'OREX', 'OREY', 'OREZ', 'ORFA', 'ORFB', 'ORFC', 'ORFD', 'ORFE', 'ORFF', 'ORFG', 'ORFH', 'ORFI', 'ORFJ', 'ORFK', 'ORFL', 'ORFM', 'ORFN', 'ORFO', 'ORFP', 'ORFQ', 'ORFR', 'ORFS', 'ORFT', 'ORFU', 'ORFV', 'ORFW', 'ORFX', 'ORFY', 'ORFZ', 'ORGA', 'ORGB', 'ORGC', 'ORGD', 'ORGE', 'ORGF', 'ORGG', 'ORGH', 'ORGI', 'ORGJ', 'ORGK', 'ORGL', 'ORGM', 'ORGN', 'ORGO', 'ORGP', 'ORGQ', 'ORGR', 'ORGS', 'ORGT', 'ORGU', 'ORGV', 'ORGW', 'ORGX', 'ORGY', 'ORGZ', 'ORHA', 'ORHB', 'ORHC', 'ORHD', 'ORHE', 'ORHF', 'ORHG', 'ORHH', 'ORHI', 'ORHJ', 'ORHK', 'ORHL', 'ORHM', 'ORHN', 'ORHO', 'ORHP', 'ORHQ', 'ORHR', 'ORHS', 'ORHT', 'ORHU', 'ORHV', 'ORHW', 'ORHX', 'ORHY', 'ORHZ', 'ORIA', 'ORIB', 'ORIC', 'ORID', 'ORIE', 'ORIF', 'ORIG', 'ORIH', 'ORII', 'ORIJ', 'ORIK', 'ORIL', 'ORIM', 'ORIN', 'ORIO', 'ORIP', 'ORIQ', 'ORIR', 'ORIS', 'ORIT', 'ORIU', 'ORIV', 'ORIW', 'ORIX', 'ORIY', 'ORIZ', 'ORJA', 'ORJB', 'ORJC', 'ORJD', 'ORJE', 'ORJF', 'ORJG', 'ORJH', 'ORJI', 'ORJJ', 'ORJK', 'ORJL', 'ORJM', 'ORJN', 'ORJO', 'ORJP', 'ORJQ', 'ORJR', 'ORJS', 'ORJT', 'ORJU', 'ORJV', 'ORJW', 'ORJX', 'ORJY', 'ORJZ', 'ORKA', 'ORKB', 'ORKC', 'ORKD', 'ORKE', 'ORKF', 'ORKG', 'ORKH', 'ORKI', 'ORKJ', 'ORKK', 'ORKL', 'ORKM', 'ORKN', 'ORKO', 'ORKP', 'ORKQ', 'ORKR', 'ORKS', 'ORKT', 'ORKU', 'ORKV', 'ORKW', 'ORKX', 'ORKY', 'ORKZ', 'ORLA', 'ORLB', 'ORLC', 'ORLD', 'ORLE', 'ORLF', 'ORLG', 'ORLH', 'ORLI', 'ORLJ', 'ORLK', 'ORLL', 'ORLM', 'ORLN', 'ORLO', 'ORLP', 'ORLQ', 'ORLR', 'ORLS', 'ORLT', 'ORLU', 'ORLV', 'ORLW', 'ORLX', 'ORLY', 'ORLZ', 'ORMA', 'ORMB', 'ORMC', 'ORMD', 'ORME', 'ORMF', 'ORMG', 'ORMH', 'ORMI', 'ORMJ', 'ORMK', 'ORML', 'ORMM', 'ORMN', 'ORMO', 'ORMP', 'ORMQ', 'ORMR', 'ORMS', 'ORMT', 'ORMU', 'ORMV', 'ORMW', 'ORMX', 'ORMY', 'ORMZ', 'ORNA', 'ORNB', 'ORNC', 'ORND', 'ORNE', 'ORNF', 'ORNG', 'ORNH', 'ORNI', 'ORNJ', 'ORNK', 'ORNL', 'ORNM', 'ORNN', 'ORNO', 'ORNP', 'ORNQ', 'ORNR', 'ORNS', 'ORNT', 'ORNU', 'ORNV', 'ORNW', 'ORNX', 'ORNY', 'ORNZ', 'OROA', 'OROB', 'OROC', 'OROD', 'OROE', 'OROF', 'OROG', 'OROH', 'OROI', 'OROJ', 'OROK', 'OROL', 'OROM', 'ORON', 'OROO', 'OROP', 'OROQ', 'OROR', 'OROS', 'OROT', 'OROU', 'OROV', 'OROW', 'OROX', 'OROY', 'OROZ', 'ORPA', 'ORPB', 'ORPC', 'ORPD', 'ORPE', 'ORPF', 'ORPG', 'ORPH', 'ORPI', 'ORPJ', 'ORPK', 'ORPL', 'ORPM', 'ORPN', 'ORPO', 'ORPP', 'ORPQ', 'ORPR', 'ORPS', 'ORPT', 'ORPU', 'ORPV', 'ORPW', 'ORPX', 'ORPY', 'ORPZ', 'ORQA', 'ORQB', 'ORQC', 'ORQD', 'ORQE', 'ORQF', 'ORQG', 'ORQH', 'ORQI', 'ORQJ', 'ORQK', 'ORQL', 'ORQM', 'ORQN', 'ORQO', 'ORQP', 'ORQQ', 'ORQR', 'ORQS', 'ORQT', 'ORQU', 'ORQV', 'ORQW', 'ORQX', 'ORQY', 'ORQZ', 'ORRA', 'ORRB', 'ORRC', 'ORRD', 'ORRE', 'ORRF', 'ORRG', 'ORRH', 'ORRI', 'ORRJ', 'ORRK', 'ORRL', 'ORRM', 'ORRN', 'ORRO', 'ORRP', 'ORRQ', 'ORRR', 'ORRS', 'ORRT', 'ORRU', 'ORRV', 'ORRW', 'ORRX', 'ORRY', 'ORRZ', 'ORSA', 'ORSB', 'ORSC', 'ORSD', 'ORSE', 'ORSF', 'ORSG', 'ORSH', 'ORSI', 'ORSJ', 'ORSK', 'ORSL', 'ORSM', 'ORSN', 'ORSO', 'ORSP', 'ORSQ', 'ORSR', 'ORSS', 'ORST', 'ORSU', 'ORSV', 'ORSW', 'ORSX', 'ORSY', 'ORSZ', 'ORTA', 'ORTB', 'ORTC', 'ORTD', 'ORTE', 'ORTF', 'ORTG', 'ORTH', 'ORTI', 'ORTJ', 'ORTK', 'ORTL', 'ORTM', 'ORTN', 'ORTO', 'ORTP', 'ORTQ', 'ORTR', 'ORTS', 'ORTT', 'ORTU', 'ORTV', 'ORTW', 'ORTX', 'ORTY', 'ORTZ', 'ORUA', 'ORUB', 'ORUC', 'ORUD', 'ORUE', 'ORUF', 'ORUG', 'ORUH', 'ORUI', 'ORUJ', 'ORUK', 'ORUL', 'ORUM', 'ORUN', 'ORUO', 'ORUP', 'ORUQ', 'ORUR', 'ORUS', 'ORUT', 'ORUU', 'ORUV', 'ORUW', 'ORUX', 'ORUY', 'ORUZ', 'ORVA', 'ORVB', 'ORVC', 'ORVD', 'ORVE', 'ORVF', 'ORVG', 'ORVH', 'ORVI', 'ORVJ', 'ORVK', 'ORVL', 'ORVM', 'ORVN', 'ORVO', 'ORVP', 'ORVQ', 'ORVR', 'ORVS', 'ORVT', 'ORVU', 'ORVV', 'ORVW', 'ORVX', 'ORVY', 'ORVZ', 'ORWA', 'ORWB', 'ORWC', 'ORWD', 'ORWE', 'ORWF', 'ORWG', 'ORWH', 'ORWI', 'ORWJ', 'ORWK', 'ORWL', 'ORWM', 'ORWN', 'ORWO', 'ORWP', 'ORWQ', 'ORWR', 'ORWS', 'ORWT', 'ORWU', 'ORWV', 'ORWW', 'ORWX', 'ORWY', 'ORWZ', 'ORXA', 'ORXB', 'ORXC', 'ORXD', 'ORXE', 'ORXF', 'ORXG', 'ORXH', 'ORXI', 'ORXJ', 'ORXK', 'ORXL', 'ORXM', 'ORXN', 'ORXO', 'ORXP', 'ORXQ', 'ORXR', 'ORXS', 'ORXT', 'ORXU', 'ORXV', 'ORXW', 'ORXX', 'ORXY', 'ORXZ', 'ORYA', 'ORYB', 'ORYC', 'ORYD', 'ORYE', 'ORYF', 'ORYG', 'ORYH', 'ORYI', 'ORYJ', 'ORYK', 'ORYL', 'ORYM', 'ORYN', 'ORYO', 'ORYP', 'ORYQ', 'ORYR', 'ORYS', 'ORYT', 'ORYU', 'ORYV', 'ORYW', 'ORYX', 'ORYY', 'ORYZ', 'ORZA', 'ORZB', 'ORZC', 'ORZD', 'ORZE', 'ORZF', 'ORZG', 'ORZH', 'ORZI', 'ORZJ', 'ORZK', 'ORZL', 'ORZM', 'ORZN', 'ORZO', 'ORZP', 'ORZQ', 'ORZR', 'ORZS', 'ORZT', 'ORZU', 'ORZV', 'ORZW', 'ORZX', 'ORZY', 'ORZZ'
-  ];
+  ], []);
 
-  const fetchTrafficData = async () => {
+  const fetchTrafficData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -112,7 +110,7 @@ const LiveTrafficWidget = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [middleEastAirports]);
 
   useEffect(() => {
     fetchTrafficData();
@@ -121,7 +119,7 @@ const LiveTrafficWidget = () => {
     const interval = setInterval(fetchTrafficData, 30000);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchTrafficData]);
 
   const formatAltitude = (altitude: number) => {
     if (altitude < 1000) return `${altitude}ft`;

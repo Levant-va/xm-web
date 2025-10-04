@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Navbar, Footer, ProtectedRoute, useAuth } from '@/components';
 import { Button } from '@/components/ui';
 import { useBackgroundImage } from '@/components/context/BackgroundImageContext';
+import Image from 'next/image';
 
 interface HeroText {
   id: string;
@@ -100,7 +101,7 @@ const AdminDashboard = () => {
       
       setSaveStatus('success');
       setTimeout(() => setSaveStatus('idle'), 3000);
-    } catch (error) {
+    } catch {
       setSaveStatus('error');
       setTimeout(() => setSaveStatus('idle'), 3000);
     }
@@ -152,7 +153,7 @@ const AdminDashboard = () => {
         // await saveBackgroundImageToDatabase(result);
       };
       reader.readAsDataURL(file);
-    } catch (error) {
+    } catch {
       setUploadError('Failed to upload image');
       setIsUploading(false);
     }
@@ -328,9 +329,11 @@ const AdminDashboard = () => {
                   </label>
                   <div className="w-full h-32 bg-gray-200 rounded-md overflow-hidden border">
                     {settings.backgroundImage ? (
-                      <img
+                      <Image
                         src={settings.backgroundImage}
                         alt="Background preview"
+                        width={400}
+                        height={128}
                         className="w-full h-full object-cover"
                       />
                     ) : (

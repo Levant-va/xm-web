@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 const Footer = () => {
   const t = useTranslations();
@@ -52,9 +53,11 @@ const Footer = () => {
           <div className="md:col-span-1">
             <div className="flex items-center mb-6 -mt-2">
               <div className="h-60 w-60 rounded-xl overflow-hidden">
-                <img 
+                <Image 
                   src="/img/xm-logo.png" 
                   alt="XM Logo" 
+                  width={240}
+                  height={240}
                   className="w-full h-full object-contain"
                 />
               </div>

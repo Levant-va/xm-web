@@ -1,8 +1,9 @@
 'use client';
 
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
+import Image from 'next/image';
 
 const LanguageSwitcher = () => {
   const locale = useLocale();
@@ -31,7 +32,7 @@ const LanguageSwitcher = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 px-3 py-2 text-white hover:text-emerald-400 transition-colors rounded-md hover:bg-gray-800"
       >
-        <img src={currentLanguage.flag} alt={`${currentLanguage.name} flag`} className="w-5 h-4 object-cover rounded-sm" />
+        <Image src={currentLanguage.flag} alt={`${currentLanguage.name} flag`} width={20} height={16} className="w-5 h-4 object-cover rounded-sm" />
         <span className="text-sm font-medium">{currentLanguage.name}</span>
         <svg
           className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
@@ -53,7 +54,7 @@ const LanguageSwitcher = () => {
                 locale === language.code ? 'bg-gray-700 text-emerald-400' : 'text-white'
               }`}
             >
-              <img src={language.flag} alt={`${language.name} flag`} className="w-5 h-4 object-cover rounded-sm" />
+              <Image src={language.flag} alt={`${language.name} flag`} width={20} height={16} className="w-5 h-4 object-cover rounded-sm" />
               <span className="font-medium">{language.name}</span>
               {locale === language.code && (
                 <svg className="w-4 h-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">

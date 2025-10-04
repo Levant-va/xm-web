@@ -1,4 +1,4 @@
-import { Navbar, Footer, HeroSection, StatusBars, TrafficWidget, PartnersSection, AirportWeatherWidget, LiveTrafficWidget, LiveControllerWidget, GlowingBar } from '@/components';
+import { Navbar, Footer, HeroSection, StatusBars, PartnersSection, AirportWeatherWidget, LiveTrafficWidget, LiveControllerWidget, GlowingBar } from '@/components';
 
 export default function Home() {
   return (

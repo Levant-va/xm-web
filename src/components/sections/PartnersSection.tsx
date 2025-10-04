@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 const PartnersSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -70,9 +71,11 @@ const PartnersSection = () => {
                 {/* Logo */}
                 <div className="relative z-10">
                   <div className="w-40 h-40 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg group-hover:shadow-xl">
-                    <img 
+                    <Image 
                       src={partner.logo} 
                       alt={`${partner.name} Logo`}
+                      width={128}
+                      height={128}
                       className="w-32 h-32 object-contain"
                     />
                   </div>

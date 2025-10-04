@@ -29,14 +29,14 @@ export class AdminSettingsService {
   }
 
   // Save settings
-  static async saveSettings(settings: AdminSettings): Promise<void> {
+  static async saveSettings(): Promise<void> {
     // TODO: Implement database save
     // Example: await db.adminSettings.upsert({...});
     throw new Error('Database integration needed');
   }
 
   // Upload background image
-  static async uploadBackgroundImage(file: File): Promise<string> {
+  static async uploadBackgroundImage(): Promise<string> {
     // TODO: Implement file upload to storage service
     // 1. Upload file to cloud storage (AWS S3, Cloudinary, etc.)
     // 2. Get public URL
