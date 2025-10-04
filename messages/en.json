@@ -30,7 +30,15 @@
     "requestTraining": "Request Training",
     "requestExam": "Request Exam",
     "vfrCommunication": "VFR Communication",
-    "ifrCommunication": "IFR Communication"
+    "ifrCommunication": "IFR Communication",
+    "pilotSupport": {
+      "title": "Pilot Support & Training",
+      "description": "The IVAO Middle East Division offers localized support for pilots through comprehensive training programs, real-world aviation procedures, airspace guidance, and language assistance. Our training curriculum is designed to enhance pilot skills and knowledge aligned with Middle East and regional aviation standards."
+    },
+    "atcTraining": {
+      "title": "ATC Training & Operations",
+      "description": "The IVAO Middle East Division provides air traffic controllers with comprehensive local training, including structured theoretical courses, live one-on-one mentoring, and certifications based on real-world procedures. Our ATC programs ensure controllers develop expertise that reflect Middle East airspace operations."
+    }
   },
   "resources": {
     "charts": "Aeronautical Charts",

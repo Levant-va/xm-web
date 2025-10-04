@@ -17,11 +17,13 @@ const Navbar = () => {
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      const utcTime = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
       
-      // Format time as HH:MM:SS Z
-      const timeString = utcTime.toISOString().substr(11, 8);
-      setZuluTime(timeString);
+      // Get UTC time directly using UTC methods
+      const hours = now.getUTCHours().toString().padStart(2, '0');
+      const minutes = now.getUTCMinutes().toString().padStart(2, '0');
+      const seconds = now.getUTCSeconds().toString().padStart(2, '0');
+      
+      setZuluTime(`${hours}:${minutes}:${seconds}`);
     };
 
     // Update immediately
@@ -29,7 +31,7 @@ const Navbar = () => {
     
     // Update every second
     const interval = setInterval(updateTime, 1000);
-
+    
     return () => clearInterval(interval);
   }, []);
 
@@ -61,60 +63,55 @@ const Navbar = () => {
     {
       name: t('navigation.division'),
       href: '/division',
-      icon: '🏢',
       submenu: [
-        { name: t('division.aboutUs'), href: '/division/about', icon: 'ℹ️' },
-        { name: t('division.staffTeam'), href: '/division/staff', icon: '👥' },
-        { name: t('division.upcomingEvents'), href: '/division/events', icon: '📅' },
-        { name: t('division.virtualAirlines'), href: '/division/virtual-airlines', icon: '✈️' },
-        { name: t('division.tours'), href: '/division/tours', icon: '🗺️' },
+        { name: t('division.aboutUs'), href: '/division/about' },
+        { name: t('division.staffTeam'), href: '/division/staff' },
+        { name: t('division.upcomingEvents'), href: '/division/events' },
+        { name: t('division.virtualAirlines'), href: '/division/virtual-airlines' },
+        { name: t('division.tours'), href: '/division/tours' },
       ]
     },
     {
       name: t('navigation.pilots'),
       href: '/pilots',
-      icon: '✈️',
       submenu: [
-        { name: t('pilots.webeye'), href: '/pilots/webeye', icon: '👁️' },
-        { name: t('pilots.examGuidelines'), href: '/pilots/exam-guidelines', icon: '📋' },
-        { name: t('pilots.communicationManual'), href: '/pilots/communication-manual', icon: '📖' },
+        { name: t('pilots.webeye'), href: '/pilots/webeye' },
+        { name: t('pilots.examGuidelines'), href: '/pilots/exam-guidelines' },
+        { name: t('pilots.communicationManual'), href: '/pilots/communication-manual' },
       ]
     },
     {
       name: t('navigation.controllers'),
       href: '/controllers',
-      icon: '🎯',
       submenu: [
-        { name: t('controllers.atcOperation'), href: '/controllers/atc-operation', icon: '🎮' },
-        { name: t('controllers.examGuidelines'), href: '/controllers/exam-guidelines', icon: '📋' },
-        { name: t('controllers.ojaiProcedures'), href: '/controllers/ojai-procedures', icon: '📄' },
-        { name: t('controllers.orbiProcedures'), href: '/controllers/orbi-procedures', icon: '📄' },
-        { name: t('controllers.osdiProcedures'), href: '/controllers/osdi-procedures', icon: '📄' },
+        { name: t('controllers.atcOperation'), href: '/controllers/atc-operation' },
+        { name: t('controllers.examGuidelines'), href: '/controllers/exam-guidelines' },
+        { name: t('controllers.ojaiProcedures'), href: '/controllers/ojai-procedures' },
+        { name: t('controllers.orbiProcedures'), href: '/controllers/orbi-procedures' },
+        { name: t('controllers.osdiProcedures'), href: '/controllers/osdi-procedures' },
       ]
     },
     {
       name: t('navigation.training'),
       href: '/training',
-      icon: '🎓',
       submenu: [
-        { name: t('training.requestTraining'), href: '/training/request-training', icon: '📝' },
-        { name: t('training.requestExam'), href: '/training/request-exam', icon: '📝' },
-        { name: t('training.vfrCommunication'), href: '/training/vfr-communication', icon: '📻' },
-        { name: t('training.ifrCommunication'), href: '/training/ifr-communication', icon: '📻' },
+        { name: t('training.requestTraining'), href: '/training/request-training' },
+        { name: t('training.requestExam'), href: '/training/request-exam' },
+        { name: t('training.vfrCommunication'), href: '/training/vfr-communication' },
+        { name: t('training.ifrCommunication'), href: '/training/ifr-communication' },
       ]
     },
     {
       name: t('navigation.resources'),
       href: '/resources',
-      icon: '📚',
       submenu: [
-        { name: t('resources.charts'), href: '/resources/charts', icon: '🗺️' },
-        { name: t('resources.scenery'), href: '/resources/scenery', icon: '🌍' },
-        { name: t('resources.joinIvao'), href: '/resources/join-ivao', icon: '🔗' },
-        { name: t('resources.forum'), href: '/resources/forum', icon: '💬' },
-        { name: t('resources.transfers'), href: '/resources/transfers', icon: '🔄' },
-        { name: t('resources.wiki'), href: '/resources/wiki', icon: '📖' },
-        { name: t('resources.rules'), href: '/resources/rules', icon: '📋' },
+        { name: t('resources.charts'), href: '/resources/charts' },
+        { name: t('resources.scenery'), href: '/resources/scenery' },
+        { name: t('resources.joinIvao'), href: '/resources/join-ivao' },
+        { name: t('resources.forum'), href: '/resources/forum' },
+        { name: t('resources.transfers'), href: '/resources/transfers' },
+        { name: t('resources.wiki'), href: '/resources/wiki' },
+        { name: t('resources.rules'), href: '/resources/rules' },
       ]
     },
   ];
@@ -154,7 +151,6 @@ const Navbar = () => {
                       : 'text-white/90 hover:text-white hover:bg-white/10 text-shadow'
                   }`}
                 >
-                  <span className="text-base">{item.icon}</span>
                   <span>{item.name}</span>
                 </button>
                 
@@ -170,9 +166,6 @@ const Navbar = () => {
                         href={subItem.href}
                         className="flex items-center space-x-3 px-4 py-3 text-sm text-white hover:bg-gray-800 hover:text-emerald-400 transition-all duration-200 group"
                       >
-                        <span className="text-base group-hover:scale-110 transition-transform duration-200">
-                          {subItem.icon}
-                        </span>
                         <span>{subItem.name}</span>
                       </Link>
                     ))}
@@ -255,7 +248,6 @@ const Navbar = () => {
                     }}
                     className="flex items-center space-x-3 text-white hover:text-emerald-400 block px-3 py-3 rounded-lg text-base font-medium hover:bg-gray-800 transition-all duration-200 w-full text-left"
                   >
-                    <span className="text-lg">{item.icon}</span>
                     <span>{item.name}</span>
                   </button>
                   <div className="pl-6 space-y-1">
@@ -266,7 +258,6 @@ const Navbar = () => {
                         className="flex items-center space-x-3 text-gray-300 hover:text-emerald-400 block px-3 py-2 rounded-lg text-sm hover:bg-gray-800 transition-all duration-200"
                         onClick={() => setIsOpen(false)}
                       >
-                        <span className="text-sm">{subItem.icon}</span>
                         <span>{subItem.name}</span>
                       </Link>
                     ))}

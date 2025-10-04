@@ -7,32 +7,29 @@ const Footer = () => {
   const footerSections = [
     {
       title: t('footer.pilots'),
-      icon: '✈️',
       links: [
-        { name: t('resources.charts'), href: '/resources/charts', icon: '🗺️' },
-        { name: t('pilots.examGuidelines'), href: '/pilots/exam-guidelines', icon: '📋' },
-        { name: t('pilots.webeye'), href: '/pilots/webeye', icon: '👁️' },
-        { name: t('pilots.communicationManual'), href: '/pilots/communication-manual', icon: '📖' }
+        { name: t('resources.charts'), href: '/resources/charts' },
+        { name: t('pilots.examGuidelines'), href: '/pilots/exam-guidelines' },
+        { name: t('pilots.webeye'), href: '/pilots/webeye' },
+        { name: t('pilots.communicationManual'), href: '/pilots/communication-manual' }
       ]
     },
     {
       title: t('footer.controllers'),
-      icon: '🎯',
       links: [
-        { name: t('training.requestTraining'), href: '/training/request-training', icon: '📝' },
-        { name: t('controllers.examGuidelines'), href: '/controllers/exam-guidelines', icon: '📋' },
-        { name: t('controllers.atcOperation'), href: '/controllers/atc-operation', icon: '🎮' },
-        { name: t('controllers.ojaiProcedures'), href: '/controllers/ojai-procedures', icon: '📄' }
+        { name: t('training.requestTraining'), href: '/training/request-training' },
+        { name: t('controllers.examGuidelines'), href: '/controllers/exam-guidelines' },
+        { name: t('controllers.atcOperation'), href: '/controllers/atc-operation' },
+        { name: t('controllers.ojaiProcedures'), href: '/controllers/ojai-procedures' }
       ]
     },
     {
       title: t('footer.headquarters'),
-      icon: '🏢',
       links: [
-        { name: t('footer.hq'), href: '/division', icon: '🏛️' },
-        { name: t('footer.staffTeams'), href: '/division/staff', icon: '👥' },
-        { name: t('footer.policies'), href: '/resources/rules', icon: '📋' },
-        { name: t('footer.contacts'), href: '/division/about', icon: '📞' }
+        { name: t('footer.hq'), href: '/division' },
+        { name: t('footer.staffTeams'), href: '/division/staff' },
+        { name: t('footer.policies'), href: '/resources/rules' },
+        { name: t('footer.contacts'), href: '/division/about' }
       ]
     }
   ];
@@ -52,7 +49,7 @@ const Footer = () => {
           {/* Logo and Description */}
           <div className="md:col-span-1">
             <div className="flex items-center mb-6 -mt-2">
-              <div className="h-40 w-40 rounded-xl overflow-hidden">
+              <div className="h-60 w-60 rounded-xl overflow-hidden">
                 <img 
                   src="/img/xm-logo.png" 
                   alt="XM Logo" 
@@ -71,8 +68,7 @@ const Footer = () => {
           {/* Footer Links */}
           {footerSections.map((section, index) => (
             <div key={index} className="md:col-span-1">
-              <div className="flex items-center mb-6">
-                <span className="text-2xl mr-3">{section.icon}</span>
+              <div className="mb-6">
                 <h3 className="text-lg font-semibold">{section.title}</h3>
               </div>
               <ul className="space-y-3">
@@ -82,9 +78,6 @@ const Footer = () => {
                       href={link.href}
                       className="flex items-center space-x-2 text-gray-300 hover:text-white transition-all duration-300 hover:translate-x-1 group"
                     >
-                      <span className="text-sm group-hover:scale-110 transition-transform duration-300">
-                        {link.icon}
-                      </span>
                       <span className="text-sm">{link.name}</span>
                     </Link>
                   </li>

@@ -102,10 +102,10 @@ const StatusBars = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div className="order-2 lg:order-1">
                 <h3 className="text-3xl font-bold text-white mb-6">
-                  Pilot Support & Training
+                  {t('training.pilotSupport.title')}
                 </h3>
                 <p className="text-gray-300 text-lg leading-relaxed">
-                  The IVAO Middle East Division offers localized support for pilots through comprehensive training programs, real-world aviation procedures, airspace guidance, and language assistance. Our training curriculum is designed to enhance pilot skills and knowledge aligned with Middle East and regional aviation standards.
+                  {t('training.pilotSupport.description')}
                 </p>
               </div>
               <div className="order-1 lg:order-2">
@@ -132,10 +132,10 @@ const StatusBars = () => {
               </div>
               <div className="order-2">
                 <h3 className="text-3xl font-bold text-white mb-6">
-                  ATC Training & Operations
+                  {t('training.atcTraining.title')}
                 </h3>
                 <p className="text-gray-300 text-lg leading-relaxed">
-                  The IVAO Middle East Division provides air traffic controllers with comprehensive local training, including structured theoretical courses, live one-on-one mentoring, and certifications based on real-world procedures. Our ATC programs ensure controllers develop expertise that reflect Middle East airspace operations.
+                  {t('training.atcTraining.description')}
                 </p>
               </div>
             </div>
