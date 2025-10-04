@@ -12,24 +12,21 @@ const Footer = () => {
       links: [
         { name: 'Webeye', href: 'https://webeye.ivao.aero/', external: true },
         { name: t('resources.charts'), href: '/resources/charts' },
-        { name: t('pilots.webeye'), href: '/pilots/webeye' },
-        { name: t('pilots.communicationManual'), href: '/pilots/communication-manual' }
+        { name: t('pilots.webeye'), href: '/pilots/webeye' }
       ]
     },
     {
       title: t('footer.controllers'),
       links: [
         { name: t('training.requestTraining'), href: '/training/request-training' },
-        { name: t('controllers.atcOperation'), href: '/controllers/atc-operation' },
-        { name: t('controllers.orbiProcedures'), href: '/controllers/orbi-procedures' },
-        { name: t('controllers.osdiProcedures'), href: '/controllers/osdi-procedures' }
+        { name: t('controllers.atcOperation'), href: '/controllers/atc-operation' }
       ]
     },
     {
       title: t('footer.headquarters'),
       links: [
         { name: t('footer.hq'), href: '/division' },
-        { name: t('footer.staffTeams'), href: '/division/staff' },
+        { name: t('footer.staffTeams'), href: 'https://www.ivao.aero/staff/division.asp?Id=XM', external: true },
         { name: t('footer.policies'), href: '/resources/rules' },
         { name: t('footer.contacts'), href: '/division/about' }
       ]
@@ -45,7 +42,7 @@ const Footer = () => {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-purple-500/5 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Logo and Description */}
@@ -103,7 +100,7 @@ const Footer = () => {
 
 
         {/* Bottom Section */}
-        <div className="border-t border-gray-700 pt-8">
+        <div className="border-t border-gray-700 pt-1.5">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-6 mb-6 md:mb-0">
               <p className="text-gray-300 text-sm">

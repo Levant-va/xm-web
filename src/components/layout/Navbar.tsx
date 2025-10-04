@@ -66,6 +66,7 @@ const Navbar = () => {
       submenu: [
         { name: t('division.divisionalStaff'), href: 'https://www.ivao.aero/staff/division.asp?Id=XM', external: true },
         { name: t('division.divisionalEvents'), href: '/division/events' },
+        { name: t('division.divisionTransfer'), href: '/division/transfer' },
         { name: t('division.tours'), href: 'https://tours.th.ivao.aero/index.php?div=XM', external: true },
       ]
     },
@@ -75,7 +76,6 @@ const Navbar = () => {
       submenu: [
         { name: t('pilots.webeye'), href: 'https://webeye.ivao.aero/', external: true },
         { name: t('pilots.examGuidelines'), href: 'https://wiki.ivao.aero/en/home/training/documentation', external: true },
-        { name: t('pilots.communicationManual'), href: '/pilots/communication-manual' },
         { name: t('pilots.ivaoTracker'), href: 'https://tracker.ivao.aero/', external: true },
       ]
     },
@@ -95,8 +95,6 @@ const Navbar = () => {
       name: t('navigation.training'),
       href: '/training',
       submenu: [
-        { name: t('training.requestTraining'), href: '/training/request-training' },
-        { name: t('training.requestExam'), href: '/training/request-exam' },
         { name: t('training.vfrCommunication'), href: '/training/vfr-communication' },
         { name: t('training.ifrCommunication'), href: '/training/ifr-communication' },
       ]
@@ -227,14 +225,14 @@ const Navbar = () => {
                       <span>📊</span>
                       <span>Dashboard</span>
                     </Link>
-                    <Link
-                      href="/admin/events"
-                      className="flex items-center space-x-3 px-4 py-3 text-sm text-white hover:bg-gray-800 hover:text-emerald-400 transition-all duration-200 group"
-                      onClick={() => setActiveDropdown(null)}
-                    >
-                      <span>📅</span>
-                      <span>Manage Events</span>
-                    </Link>
+               <Link
+                 href="/admin/events"
+                 className="flex items-center space-x-3 px-4 py-3 text-sm text-white hover:bg-gray-800 hover:text-emerald-400 transition-all duration-200 group"
+                 onClick={() => setActiveDropdown(null)}
+               >
+                 <span>📅</span>
+                 <span>Manage Events</span>
+               </Link>
                   </div>
                 )}
               </div>

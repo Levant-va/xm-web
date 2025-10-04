@@ -12,6 +12,7 @@
     "aboutUs": "About us",
     "divisionalStaff": "Divisional Staff",
     "divisionalEvents": "Divisional Events",
+    "divisionTransfer": "Division Transfer",
     "virtualAirlines": "Virtual Airlines",
     "tours": "Tours"
   },
@@ -136,6 +137,31 @@
   "partners": {
     "title": "Our Partners",
     "description": "Working together to provide exceptional virtual aviation experiences"
+  },
+  "divisionTransfer": {
+    "title": "Division Transfer",
+    "subtitle": "Transfer to IVAO Middle East Division (XM) and join our vibrant aviation community",
+    "requirements": "Requirements",
+    "activeIvaoAccount": "Active IVAO account",
+    "emailAccess": "You have access to your email registered in IVAO",
+    "process": "Process",
+    "processDescription": "In order to apply for division transfer to XM you need to send ONE email from your email that registered in IVAO",
+    "emailDetails": "Email Details",
+    "to": "To:",
+    "currentDivisionNote": "(XX is the letters of your current division)",
+    "cc": "Cc:",
+    "subject": "Subject:",
+    "vidNote": "(VID is your IVAO account number)",
+    "emailBody": "Email Body:",
+    "emailTemplate": "Dear Sir, request transfer to XM division for… (reason for transfer)",
+    "yourName": "-Your name",
+    "send": "SEND",
+    "importantNotes": "Important Notes",
+    "note1": "Make sure to use the exact email format provided above",
+    "note2": "Include your current division letters in the \"To\" field",
+    "note3": "Replace \"VID\" with your actual IVAO account number",
+    "note4": "Provide a clear reason for your transfer request",
+    "note5": "Processing may take several business days"
   },
   "common": {
     "loading": "Loading...",
