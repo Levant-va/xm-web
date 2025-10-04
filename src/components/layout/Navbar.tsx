@@ -84,7 +84,7 @@ const Navbar = () => {
       href: '/controllers',
       submenu: [
         { name: 'Controller Training / Guidelines', href: 'https://wiki.ivao.aero/en/home/training/documentation', external: true },
-        { name: t('controllers.atcOperation'), href: '/controllers/atc-operation' },
+        { name: 'ATC Exam / Training Guidelines', href: 'https://www.ivao.aero/training/exam/examinations.asp', external: true },
         { name: t('controllers.examGuidelines'), href: '/controllers/exam-guidelines' },
         { name: t('controllers.ojaiProcedures'), href: '/controllers/ojai-procedures' },
         { name: t('controllers.orbiProcedures'), href: '/controllers/orbi-procedures' },
@@ -97,6 +97,7 @@ const Navbar = () => {
       submenu: [
         { name: t('training.vfrCommunication'), href: '/training/vfr-communication' },
         { name: t('training.ifrCommunication'), href: '/training/ifr-communication' },
+        { name: 'Request Training', href: 'https://training.xm.ivao.aero', external: true },
       ]
     },
     {

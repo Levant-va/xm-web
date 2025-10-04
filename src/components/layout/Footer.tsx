@@ -11,15 +11,18 @@ const Footer = () => {
       title: t('footer.pilots'),
       links: [
         { name: 'Webeye', href: 'https://webeye.ivao.aero/', external: true },
-        { name: t('resources.charts'), href: '/resources/charts' },
-        { name: t('pilots.webeye'), href: '/pilots/webeye' }
+        { name: t('resources.charts'), href: '/resources/charts' }
       ]
     },
     {
       title: t('footer.controllers'),
       links: [
-        { name: t('training.requestTraining'), href: '/training/request-training' },
-        { name: t('controllers.atcOperation'), href: '/controllers/atc-operation' }
+        { name: 'Controller Training / Guidelines', href: 'https://wiki.ivao.aero/en/home/training/documentation', external: true },
+        { name: 'ATC Exam / Training Guidelines', href: 'https://www.ivao.aero/training/exam/examinations.asp', external: true },
+        { name: t('controllers.examGuidelines'), href: '/controllers/exam-guidelines' },
+        { name: t('controllers.ojaiProcedures'), href: '/controllers/ojai-procedures' },
+        { name: t('controllers.orbiProcedures'), href: '/controllers/orbi-procedures' },
+        { name: t('controllers.osdiProcedures'), href: '/controllers/osdi-procedures' }
       ]
     },
     {
