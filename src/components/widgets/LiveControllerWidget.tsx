@@ -11,17 +11,12 @@ interface ControllerData {
   serverId: string;
   createdAt: string;
   time: number;
-  atis?: {
-    lines: string[];
-    revision: string;
-    timestamp: string;
-  };
 }
 
 interface IVAOData {
   updatedAt: string;
   clients: {
-    atc: Array<{
+    atcs: Array<{
       id: number;
       callsign: string;
       serverId: string;
@@ -32,11 +27,6 @@ interface IVAOData {
         frequency: number;
         position: string;
       };
-      atis?: {
-        lines: string[];
-        revision: string;
-        timestamp: string;
-      };
     }>;
   };
 }
@@ -46,6 +36,8 @@ const LiveControllerWidget = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdate, setLastUpdate] = useState<string>('');
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [newControllersCount, setNewControllersCount] = useState(0);
 
   // Display last update time in the UI
   const displayLastUpdate = lastUpdate ? `Last updated: ${lastUpdate}` : 'Never updated';
@@ -62,7 +54,7 @@ const LiveControllerWidget = () => {
     'ORBB', 'ORBI', 'ORBM', 'ORBS', 'ORER', 'ORMM', 'ORNI', 'ORSU', 'ORTL',
     
     // Oman (OXMF FIR)
-    'OXMF'
+    'OXMF', 'OXMF_N_CTR', 'OXMF_E_CTR', 'OXMF_W_CTR', 'OXMF_S_CTR'
   ], []);
 
   // Main FIR centers that can have CTR positions
@@ -71,6 +63,7 @@ const LiveControllerWidget = () => {
   const fetchControllerData = useCallback(async () => {
     try {
       setLoading(true);
+      setIsUpdating(true);
       setError(null);
       
       const response = await fetch('https://api.ivao.aero/v2/tracker/whazzup');
@@ -81,37 +74,43 @@ const LiveControllerWidget = () => {
       const data: IVAOData = await response.json();
       
       // Check if controllers data exists
-      if (!data.clients || !data.clients.atc || !Array.isArray(data.clients.atc)) {
+      if (!data.clients || !data.clients.atcs || !Array.isArray(data.clients.atcs)) {
         setControllers([]);
         setLastUpdate(new Date().toLocaleTimeString());
         return;
       }
       
       // Filter controllers by Middle East FIR
-      const filteredControllers = data.clients.atc
+      const filteredControllers = data.clients.atcs
         .filter(controller => {
           if (!controller || !controller.callsign) return false;
           const callsign = controller.callsign.toUpperCase();
+          
+          console.log('Checking controller:', callsign);
           
           // Check if it's a Middle East FIR controller
           const isMiddleEastController = middleEastControllers.some(meController => 
             callsign.includes(meController)
           );
           
+          console.log('Is Middle East controller:', isMiddleEastController, 'for', callsign);
+          
           if (!isMiddleEastController) return false;
           
-          // Check if it's a FIR center (OJAC, OSTT, ORBB)
+          // Check if it's a FIR center (OJAC, OSTT, ORBB, OXMF)
           const isFirCenter = firCenters.some(firCenter => 
             callsign.includes(firCenter)
           );
           
-          // For FIR centers: allow DEL, GND, TWR, APP, CTR
-          // For other airports: only allow DEL, GND, TWR, APP (no CTR)
+          // Allow all operational positions for Middle East FIR controllers
+          // This includes DEL, GND, TWR, APP, CTR for all Middle East FIRs
           const isOperationalPosition = callsign.includes('_DEL') || 
                                        callsign.includes('_GND') || 
                                        callsign.includes('_TWR') || 
                                        callsign.includes('_APP') || 
-                                       (isFirCenter && callsign.includes('_CTR'));
+                                       callsign.includes('_CTR');
+          
+          console.log('Is operational position:', isOperationalPosition, 'for', callsign);
           
           return isOperationalPosition;
         })
@@ -123,17 +122,51 @@ const LiveControllerWidget = () => {
           rating: controller.rating || 0,
           serverId: controller.serverId || 'Unknown',
           createdAt: controller.createdAt || '',
-          time: controller.time || 0,
-          atis: controller.atis || undefined
+          time: controller.time || 0
         }))
         .sort((a, b) => a.callsign.localeCompare(b.callsign));
       
-      setControllers(filteredControllers);
+      // Smart update: only add new controllers, update existing ones
+      const currentControllerIds = new Set(controllers.map(c => c.id));
+      const newControllers = filteredControllers.filter(controller => 
+        !currentControllerIds.has(controller.id)
+      );
+      
+      // Update existing controllers and add new ones
+      const updatedControllers = [...controllers];
+      
+      // Update existing controllers with new data
+      filteredControllers.forEach(newController => {
+        const existingIndex = updatedControllers.findIndex(c => c.id === newController.id);
+        if (existingIndex !== -1) {
+          // Update existing controller
+          updatedControllers[existingIndex] = newController;
+        } else {
+          // Add new controller
+          updatedControllers.push(newController);
+        }
+      });
+      
+      // Remove controllers that are no longer online
+      const newControllerIds = new Set(filteredControllers.map(c => c.id));
+      const finalControllers = updatedControllers.filter(controller => 
+        newControllerIds.has(controller.id)
+      );
+      
+      if (newControllers.length > 0) {
+        setNewControllersCount(newControllers.length);
+        // Reset the new controllers count after animation
+        setTimeout(() => setNewControllersCount(0), 3000);
+      }
+      
+      setControllers(finalControllers);
       setLastUpdate(new Date().toLocaleTimeString());
+      setIsUpdating(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch data');
     } finally {
       setLoading(false);
+      setIsUpdating(false);
     }
   }, [middleEastControllers, firCenters]);
 
@@ -227,7 +260,20 @@ const LiveControllerWidget = () => {
     <div className="bg-gray-800 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-white mb-2">Live Controllers - Middle East FIR</h2>
+          <div className="flex items-center justify-center space-x-3 mb-2">
+            <h2 className="text-2xl font-bold text-white">Live Controllers - Middle East FIR</h2>
+            {isUpdating && (
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                <span className="text-blue-400 text-sm">Updating...</span>
+              </div>
+            )}
+            {newControllersCount > 0 && (
+              <div className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold animate-bounce">
+                +{newControllersCount} New!
+              </div>
+            )}
+          </div>
           <p className="text-gray-400 text-sm mb-4">
             Active ATC controllers on IVAO network
           </p>
@@ -256,8 +302,15 @@ const LiveControllerWidget = () => {
           </div>
         ) : (
           <div className="space-y-3">
-            {controllers.map((controller) => (
-              <div key={controller.id} className="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-colors duration-200">
+            {controllers.map((controller, index) => (
+              <div 
+                key={controller.id} 
+                className="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
+                style={{
+                  animationDelay: `${index * 50}ms`,
+                  animation: 'fadeInUp 0.5s ease-out forwards'
+                }}
+              >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between">
                   <div className="flex items-center space-x-4 mb-2 sm:mb-0">
                     <div className="flex items-center space-x-2">
@@ -281,31 +334,8 @@ const LiveControllerWidget = () => {
                       <span className="text-gray-400">Online:</span>
                       <span className="text-yellow-400 font-medium">{getSessionDuration(controller.time)}</span>
                     </div>
-                    
-                    {controller.atis && (
-                      <div className="flex items-center space-x-1">
-                        <span className="text-gray-400">ATIS:</span>
-                        <span className="text-purple-400 font-medium">{controller.atis.revision}</span>
-                      </div>
-                    )}
                   </div>
                 </div>
-                
-                {controller.atis && (
-                  <div className="mt-3 pt-3 border-t border-gray-600">
-                    <div className="text-xs text-gray-400">
-                      <strong>ATIS {controller.atis.revision}:</strong>
-                      <div className="mt-1 text-gray-300">
-                        {controller.atis.lines.slice(0, 3).map((line, index) => (
-                          <div key={index}>{line}</div>
-                        ))}
-                        {controller.atis.lines.length > 3 && (
-                          <div className="text-gray-500">... and {controller.atis.lines.length - 3} more lines</div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
             ))}
           </div>
