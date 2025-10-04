@@ -108,22 +108,6 @@ const AdminDashboard = () => {
     setIsSaving(false);
   };
 
-  const handleResetSettings = () => {
-    if (confirm('Are you sure you want to reset all settings to default?')) {
-      setSettings({
-        backgroundImage: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
-        heroTexts: [
-          { id: '1', text: "Enhance your skills in virtual aviation with professional training and dedicated support", isActive: true },
-          { id: '2', text: "Join us today and experience the highest standard of flight simulation and air traffic control", isActive: true },
-          { id: '3', text: "Connect with aviation enthusiasts from around the Middle East region", isActive: true },
-          { id: '4', text: "Master the art of virtual flying with our comprehensive training programs", isActive: true }
-        ],
-        siteTitle: 'IVAO Middle East Division',
-        siteDescription: 'Enhancing virtual aviation skills across the Middle East region',
-        maintenanceMode: false
-      });
-    }
-  };
 
   const handleLogout = () => {
     logout();
@@ -217,13 +201,6 @@ const AdminDashboard = () => {
               <p className="text-gray-300 font-medium">Manage your XM Division website settings</p>
             </div>
             <div className="flex space-x-3 mt-4 sm:mt-0">
-              <Button
-                onClick={handleResetSettings}
-                variant="outline"
-                className="border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white"
-              >
-                Reset Settings
-              </Button>
               <Button
                 onClick={handleLogout}
                 variant="outline"

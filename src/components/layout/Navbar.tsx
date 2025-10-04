@@ -198,19 +198,45 @@ const Navbar = () => {
               </div>
             ))}
             
-            {/* Admin Link - Only visible when authenticated */}
+            {/* Admin Dropdown - Only visible when authenticated */}
             {isAuthenticated && (
-              <Link
-                href="/admin/dashboard"
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
-                  isScrolled 
-                    ? 'text-gray-700 hover:text-blue-600 hover:bg-blue-50' 
-                    : 'text-white/90 hover:text-white hover:bg-white/10 text-shadow'
-                }`}
-              >
-                <span className="text-base">⚙️</span>
-                <span>{t('navigation.admin')}</span>
-              </Link>
+              <div className="relative navbar-dropdown">
+                <button
+                  onClick={() => setActiveDropdown(activeDropdown === 'admin' ? null : 'admin')}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                    isScrolled 
+                      ? 'text-white hover:text-emerald-400 hover:bg-gray-800' 
+                      : 'text-white/90 hover:text-white hover:bg-white/10 text-shadow'
+                  }`}
+                >
+                  <span className="text-base">⚙️</span>
+                  <span>{t('navigation.admin')}</span>
+                </button>
+                
+                {activeDropdown === 'admin' && (
+                  <div 
+                    onClick={(e) => e.stopPropagation()}
+                    className="navbar-dropdown absolute top-full left-0 mt-2 w-72 glass rounded-xl shadow-xl border border-white/20 py-2 z-50 animate-fade-in-up"
+                  >
+                    <Link
+                      href="/admin/dashboard"
+                      className="flex items-center space-x-3 px-4 py-3 text-sm text-white hover:bg-gray-800 hover:text-emerald-400 transition-all duration-200 group"
+                      onClick={() => setActiveDropdown(null)}
+                    >
+                      <span>📊</span>
+                      <span>Dashboard</span>
+                    </Link>
+                    <Link
+                      href="/admin/events"
+                      className="flex items-center space-x-3 px-4 py-3 text-sm text-white hover:bg-gray-800 hover:text-emerald-400 transition-all duration-200 group"
+                      onClick={() => setActiveDropdown(null)}
+                    >
+                      <span>📅</span>
+                      <span>Manage Events</span>
+                    </Link>
+                  </div>
+                )}
+              </div>
             )}
 
             {/* Language Switcher */}
