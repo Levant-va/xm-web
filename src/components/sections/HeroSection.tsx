@@ -8,6 +8,12 @@ const HeroSection = () => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [particles, setParticles] = useState<Array<{
+    left: number;
+    top: number;
+    animationDelay: number;
+    animationDuration: number;
+  }>>([]);
   const t = useTranslations();
   const { backgroundImage } = useBackgroundImage();
   
@@ -19,6 +25,16 @@ const HeroSection = () => {
   ];
 
   useEffect(() => {
+    // Generate particles only on client side to prevent hydration mismatch
+    setParticles(
+      [...Array(50)].map(() => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        animationDelay: Math.random() * 3,
+        animationDuration: 3 + Math.random() * 2
+      }))
+    );
+    
     setIsVisible(true);
     
     const interval = setInterval(() => {
@@ -56,15 +72,15 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-black/40"></div>
         {/* Floating particles */}
         <div className="absolute inset-0">
-          {[...Array(50)].map((_, i) => (
+          {particles.map((particle, i) => (
             <div
               key={i}
               className="absolute w-1 h-1 bg-white/20 rounded-full animate-float"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${3 + Math.random() * 2}s`
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
+                animationDelay: `${particle.animationDelay}s`,
+                animationDuration: `${particle.animationDuration}s`
               }}
             />
           ))}

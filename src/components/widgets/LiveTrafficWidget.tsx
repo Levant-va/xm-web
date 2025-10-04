@@ -218,7 +218,7 @@ const LiveTrafficWidget = () => {
             <div className="bg-gray-700 rounded-lg p-8">
               <p className="text-gray-400 text-lg">No flights found</p>
               <p className="text-gray-500 text-sm mt-2">
-                No {filter}s from Middle East FIR airports at the moment
+                No flights from Middle East FIR airports at the moment
               </p>
             </div>
           </div>

@@ -146,7 +146,6 @@ const Navbar = () => {
                   : 'text-white/90 hover:text-white hover:bg-white/10 text-shadow'
               }`}
             >
-              <span className="text-base">🏠</span>
               <span>{t('navigation.home')}</span>
             </Link>
             
