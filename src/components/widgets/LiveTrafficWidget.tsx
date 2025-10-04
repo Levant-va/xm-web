@@ -50,6 +50,7 @@ const LiveTrafficWidget = () => {
   const [flights, setFlights] = useState<FlightData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [lastUpdate, setLastUpdate] = useState<string>('');
 
   // Middle East FIR airports - All airports in OJAC, OSTT, ORBB FIRs
   const middleEastAirports = useMemo(() => [
@@ -279,6 +280,7 @@ const LiveTrafficWidget = () => {
         )}
 
         <div className="text-center mt-6">
+          <p className="text-xs text-gray-500">Last updated: {lastUpdate || 'Never'}</p>
         </div>
       </div>
     </div>

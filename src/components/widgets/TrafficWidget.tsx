@@ -77,6 +77,65 @@ const TrafficWidget = () => {
   };
 
   const fetchIVAOData = useCallback(async () => {
+    const processTrafficData = (data: IVAOData) => {
+      const firData: TrafficData[] = [
+        {
+          fir: "OJAC",
+          name: "Amman Control",
+          inbound: 0,
+          outbound: 0,
+          online: 0,
+          controllers: 0,
+        },
+        {
+          fir: "OSDI",
+          name: "Baghdad Control",
+          inbound: 0,
+          outbound: 0,
+          online: 0,
+          controllers: 0,
+        },
+        {
+          fir: "ORBI",
+          name: "Baghdad Control",
+          inbound: 0,
+          outbound: 0,
+          online: 0,
+          controllers: 0,
+        },
+      ];
+
+      data.clients.forEach((client) => {
+        // Check if client is in any of our FIRs
+        Object.entries(firBoundaries).forEach(([fir, bounds]) => {
+          if (
+            client.latitude >= bounds.minLat &&
+            client.latitude <= bounds.maxLat &&
+            client.longitude >= bounds.minLon &&
+            client.longitude <= bounds.maxLon
+          ) {
+            const firIndex = firData.findIndex((f) => f.fir === fir);
+            if (firIndex !== -1) {
+              if (client.clientType === "ATC") {
+                firData[firIndex].controllers++;
+              } else if (client.clientType === "PILOT") {
+                firData[firIndex].online++;
+
+                // Simple logic to determine inbound/outbound based on altitude and ground speed
+                if (client.onGround || client.groundSpeed < 50) {
+                  firData[firIndex].inbound++;
+                } else {
+                  firData[firIndex].outbound++;
+                }
+              }
+            }
+          }
+        });
+      });
+
+      return firData;
+    };
+
     try {
       setIsLoading(true);
       setError(null);
@@ -138,7 +197,7 @@ const TrafficWidget = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [firBoundaries]);
 
   const parseWhazzupData = (data: string) => {
     const lines = data.split("\n");
@@ -177,64 +236,6 @@ const TrafficWidget = () => {
     return { clients };
   };
 
-  const processTrafficData = (data: IVAOData) => {
-    const firData: TrafficData[] = [
-      {
-        fir: "OJAC",
-        name: "Amman Control",
-        inbound: 0,
-        outbound: 0,
-        online: 0,
-        controllers: 0,
-      },
-      {
-        fir: "OSDI",
-        name: "Baghdad Control",
-        inbound: 0,
-        outbound: 0,
-        online: 0,
-        controllers: 0,
-      },
-      {
-        fir: "ORBI",
-        name: "Baghdad Control",
-        inbound: 0,
-        outbound: 0,
-        online: 0,
-        controllers: 0,
-      },
-    ];
-
-    data.clients.forEach((client) => {
-      // Check if client is in any of our FIRs
-      Object.entries(firBoundaries).forEach(([fir, bounds]) => {
-        if (
-          client.latitude >= bounds.minLat &&
-          client.latitude <= bounds.maxLat &&
-          client.longitude >= bounds.minLon &&
-          client.longitude <= bounds.maxLon
-        ) {
-          const firIndex = firData.findIndex((f) => f.fir === fir);
-          if (firIndex !== -1) {
-            if (client.clientType === "ATC") {
-              firData[firIndex].controllers++;
-            } else if (client.clientType === "PILOT") {
-              firData[firIndex].online++;
-
-              // Simple logic to determine inbound/outbound based on altitude and ground speed
-              if (client.onGround || client.groundSpeed < 50) {
-                firData[firIndex].inbound++;
-              } else {
-                firData[firIndex].outbound++;
-              }
-            }
-          }
-        }
-      });
-    });
-
-    return firData;
-  };
 
   useEffect(() => {
     setIsVisible(true);

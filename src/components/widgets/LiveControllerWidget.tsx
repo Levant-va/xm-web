@@ -45,6 +45,10 @@ const LiveControllerWidget = () => {
   const [controllers, setControllers] = useState<ControllerData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [lastUpdate, setLastUpdate] = useState<string>('');
+
+  // Display last update time in the UI
+  const displayLastUpdate = lastUpdate ? `Last updated: ${lastUpdate}` : 'Never updated';
 
   // Middle East FIR controller callsigns
   const middleEastControllers = useMemo(() => [
@@ -308,6 +312,7 @@ const LiveControllerWidget = () => {
         )}
 
         <div className="text-center mt-6">
+          <p className="text-xs text-gray-500">{displayLastUpdate}</p>
         </div>
       </div>
     </div>
